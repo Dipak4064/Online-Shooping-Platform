@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/functions.php';
 start_session();
 
+
 if (current_user()) {
     header('Location: index.php');
     exit;
