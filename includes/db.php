@@ -21,5 +21,7 @@ function get_db_connection(): PDO
         exit;
     }
 
+    
+
     return $pdo;
 }
