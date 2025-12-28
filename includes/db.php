@@ -17,9 +17,11 @@ function get_db_connection(): PDO
         ]);
     } catch (PDOException $e) {
         http_response_code(500);
-        echo 'Database connection failed. Check configuration.';
+        echo 'Database connection failed. Check configuration.'. $e->getMessage();
         exit;
     }
+
+    
 
     return $pdo;
 }
