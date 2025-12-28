@@ -1,7 +1,7 @@
 <?php
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', 'password');
+define('DB_PASS', '');
 define('DB_NAME', 'sample_store');
 
 define('ROOT_URL', 'http://localhost:8000/'); // Root of the project
