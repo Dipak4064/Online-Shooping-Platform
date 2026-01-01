@@ -2,16 +2,13 @@
 require_once __DIR__ . '/../includes/functions.php';
 require_login();
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: posts.php');
-    exit;
-}
-
-$postId = (int) ($_POST['post_id'] ?? 0);
-$user = current_user();
+$postId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if ($postId) {
-    delete_post($postId, (int) $user['id']);
+    if (soft_delete_post($postId, (int)current_user()['id'])) {
+        header("Location: my_store.php?status=deleted");
+        exit;
+    }
 }
-
-header('Location: posts.php?status=deleted');
+header("Location: my_store.php?error=delete_failed");
+exit;
