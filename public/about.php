@@ -159,19 +159,19 @@ require_once __DIR__ . '/../includes/header.php';
         <p>Join thousands of satisfied customers and discover amazing products at unbeatable prices.</p>
         <div class="cta-buttons">
             <a href="<?php echo BASE_URL; ?>products.php" class="btn-cta-primary">Browse Products</a>
-            <a href="<?php echo BASE_URL; ?>register.php" class="btn-cta-secondary">Create Account</a>
+            <a href="/public/create_store.php" class="btn-cta-secondary">Create Account</a>
         </div>
     </div>
 </section>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
-<section class="about-cta-banner">
+<!-- <section class="about-cta-banner">
     <div class="cta-overlay"></div>
     <div class="cta-content">
         <span class="cta-subtitle">Shop With Us</span>
         <h2>We Are Always Ready To<br>Serve You Better</h2>
         <a href="<?php echo BASE_URL; ?>products.php" class="btn-cta-start">Get Started</a>
     </div>
-</section>
+</section> -->
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

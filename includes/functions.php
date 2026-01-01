@@ -1,6 +1,114 @@
 <?php
 require_once __DIR__ . '/db.php';
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+function send_welcome_email($user_email, $user_name)
+{
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->SMTPDebug = 0;
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'dt1414926@gmail.com';
+        $mail->Password = 'ghqh wfbj pvkp bevx';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Recipients
+        $mail->setFrom('dt1414926@gmail.com', 'Samplestore');
+        $mail->addAddress($user_email, $user_name);
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Welcome to ' . (defined('APP_NAME') ? APP_NAME : 'Samplestore');
+
+        $mail->Body = "
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px;'>
+                <h2 style='color: #333;'>Hi $user_name!</h2>
+                <p>Welcome to <strong>Samplestore</strong>. We're excited to have you on board!</p>
+                <p>Your 30-day free trial has started today. Enjoy exploring our products!</p>
+                <hr style='border: 0; border-top: 1px solid #eee;'>
+                <p style='font-size: 12px; color: #888;'>Best regards,<br>The Samplestore Team</p>
+            </div>";
+
+        return $mail->send();
+    } catch (Exception $e) {
+        return false;
+    }
+}
+function send_payment_receipt($user_email, $user_name, $amount, $tx_id)
+{
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'dt1414926@gmail.com';
+        $mail->Password = 'ghqh wfbj pvkp bevx';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        $mail->setFrom('dt1414926@gmail.com', 'Samplestore');
+        $mail->addAddress($user_email, $user_name);
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Payment Receipt - ' . $tx_id;
+
+        $mail->Body = "
+        <div style='background-color: #f3f4f6; padding: 40px 10px; font-family: sans-serif;'>
+            <div style='max-width: 500px; margin: auto; background: white; border-radius: 24px; padding: 30px; border: 1px solid #e5e7eb;'>
+                
+                <div style='text-align: center; margin-bottom: 20px;'>
+                    <div style='background: #ecfdf5; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; display: inline-block; color: #059669; font-size: 30px;'>✔</div>
+                </div>
+
+                <div style='text-align: center; margin-bottom: 30px;'>
+                    <h1 style='color: #111827; font-size: 24px; margin: 0;'>Payment Successful!</h1>
+                    <p style='color: #6b7280; font-size: 14px;'>Your transaction has been completed successfully</p>
+                    <div style='display: inline-block; background: #ecfdf5; color: #059669; padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: bold; margin-top: 10px; border: 1px solid #059669;'>Verified Payment</div>
+                </div>
+
+                <div style='background: #f8fafc; border-radius: 16px; padding: 20px; border: 1px solid #e5e7eb;'>
+                    <h3 style='margin: 0 0 15px 0; font-size: 16px; color: #111827;'>Transaction Details</h3>
+                    
+                    <table style='width: 100%; font-size: 14px; border-collapse: collapse;'>
+                        <tr>
+                            <td style='padding: 8px 0; color: #6b7280;'>Transaction ID</td>
+                            <td style='padding: 8px 0; color: #111827; text-align: right; font-weight: bold;'>$tx_id</td>
+                        </tr>
+                        <tr>
+                            <td style='padding: 8px 0; color: #6b7280;'>Amount Paid</td>
+                            <td style='padding: 8px 0; color: #059669; text-align: right; font-weight: 800; font-size: 18px;'>Rs. " . number_format($amount, 2) . "</td>
+                        </tr>
+                        <tr>
+                            <td style='padding: 8px 0; color: #6b7280;'>Status</td>
+                            <td style='padding: 8px 0; color: white; text-align: right;'>
+                                <span style='background: #059669; padding: 2px 10px; border-radius: 10px; font-size: 11px;'>COMPLETED</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style='text-align: center; margin-top: 30px;'>
+                    <p style='color: #9ca3af; font-size: 12px;'>Thank you for shopping with Samplestore!<br>If you have any questions, reply to this email.</p>
+                </div>
+
+            </div>
+        </div>";
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
 if (!defined('PLACEHOLDER_PRODUCT_IMAGE')) {
     define('PLACEHOLDER_PRODUCT_IMAGE', 'https://via.placeholder.com/600x600?text=Product');
 }
@@ -264,15 +372,6 @@ function get_product_by_slug(string $slug): ?array
     return $row ?: null;
 }
 
-function get_product_by_id(int $id): ?array
-{
-    $pdo = get_db_connection();
-    $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ? LIMIT 1');
-    $stmt->execute([$id]);
-    $row = $stmt->fetch();
-    return $row ?: null;
-}
-
 function get_related_products(int $categoryId, int $excludeId, int $limit = 4): array
 {
     $pdo = get_db_connection();
@@ -371,65 +470,54 @@ function cart_totals(): array
     ];
 }
 
-function create_order(int $userId, array $cart, array $totals, array $shipping, string $paymentMethod, ?string $transactionId = null): int
+// Orders
+function get_transaction_by_uuid(string $transactionUuid): ?array
 {
     $pdo = get_db_connection();
-    $pdo->beginTransaction();
+    $stmt = $pdo->prepare('SELECT * FROM transaction WHERE uuid_id = ? LIMIT 1');
+    $stmt->execute([$transactionUuid]);
+    $row = $stmt->fetch();
+    return $row ?: null;
+}
+function create_order_record($u_id, $b_name, $p_id, $address, $message, $amount, $status = 'pending') 
+{
+    $pdo = get_db_connection();
 
     try {
-        $stmt = $pdo->prepare('INSERT INTO orders (user_id, total_amount, tax_amount, shipping_amount, payment_method, payment_token, payment_reference, status, shipping_name, shipping_phone, shipping_address, shipping_city, shipping_zip)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $status = $paymentMethod === 'esewa' ? 'pending' : 'new';
+        $stmt = $pdo->prepare("INSERT INTO orders 
+            (user_id, b_name, product_id, address, message, total_amount, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)");
+
         $stmt->execute([
-            $userId,
-            $totals['total'],
-            $totals['tax'],
-            $totals['shipping'],
-            $paymentMethod,
-            null,
-            $transactionId,
-            $status,
-            $shipping['name'],
-            $shipping['phone'],
-            $shipping['address'],
-            $shipping['city'],
-            $shipping['zip'],
+            (int)$u_id,
+            $b_name,
+            (int)$p_id,
+            $address,
+            $message,
+            $amount,
+            $status
         ]);
 
-        $orderId = (int) $pdo->lastInsertId();
-
-        $itemStmt = $pdo->prepare('INSERT INTO order_items (order_id, product_id, quantity, unit_price, total_price) VALUES (?, ?, ?, ?, ?)');
-        foreach ($cart as $item) {
-            $itemStmt->execute([
-                $orderId,
-                $item['id'],
-                $item['quantity'],
-                $item['price'],
-                $item['subtotal'],
-            ]);
-        }
-
-        $pdo->commit();
-        return $orderId;
-    } catch (Throwable $e) {
-        $pdo->rollBack();
-        throw $e;
+        return (int)$pdo->lastInsertId();
+    } catch (PDOException $e) {
+        error_log("Order Record Creation Error: " . $e->getMessage());
+        return false;
     }
 }
 
 function get_orders_by_user(int $userId): array
 {
     $pdo = get_db_connection();
-    $stmt = $pdo->prepare('SELECT id, total_amount, status, created_at FROM orders WHERE user_id = ? ORDER BY created_at DESC');
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC');
     $stmt->execute([$userId]);
     return $stmt->fetchAll();
 }
 
-function get_order_by_id(int $orderId): ?array
+function find_product_by_id(int $productId): ?array
 {
     $pdo = get_db_connection();
-    $stmt = $pdo->prepare('SELECT * FROM orders WHERE id = ? LIMIT 1');
-    $stmt->execute([$orderId]);
+    $stmt = $pdo->prepare('SELECT * FROM posts WHERE id = ? LIMIT 1');
+    $stmt->execute([$productId]);
     $row = $stmt->fetch();
     return $row ?: null;
 }
@@ -451,6 +539,7 @@ function track_order(string $reference): ?array
     return $row ?: null;
 }
 
+//wishlist
 function save_wishlist_item(int $userId, int $productId): void
 {
     $pdo = get_db_connection();
@@ -475,17 +564,17 @@ function get_wishlist(int $userId): array
     $stmt->execute([$userId]);
     return $stmt->fetchAll();
 }
-
-function upload_public_image(array $file, string $folder): ?string
+function upload_public_image(array $file, string $folder): array
 {
-    if (empty($file['name']) || ($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-        return null;
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return ['success' => false, 'error' => 'Upload error code: ' . $file['error']];
     }
 
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-    if (!in_array($extension, $allowed, true)) {
-        return null;
+    $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+
+    if (!in_array($extension, $allowed)) {
+        return ['success' => false, 'error' => 'Invalid file type. Use JPG, PNG, or WEBP.'];
     }
 
     $basePath = dirname(__DIR__) . '/public/uploads/' . $folder;
@@ -496,13 +585,14 @@ function upload_public_image(array $file, string $folder): ?string
     $filename = uniqid('img_', true) . '.' . $extension;
     $targetPath = $basePath . '/' . $filename;
 
-    if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
-        return null;
+    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        return ['success' => true, 'path' => '/public/uploads/' . $folder . '/' . $filename];
     }
 
-    return '/public/uploads/' . $folder . '/' . $filename;
+    return ['success' => false, 'error' => 'Failed to move file. Check Linux folder permissions.'];
 }
 
+//admin
 function admin_get_products(): array
 {
     $pdo = get_db_connection();
@@ -663,6 +753,7 @@ function update_user_profile(int $userId, array $data): bool
     return $result;
 }
 
+//post functions
 function get_posts(): array
 {
     $pdo = get_db_connection();
@@ -681,21 +772,25 @@ function get_post_by_id(int $postId): ?array
 
 function create_post(int $userId, array $data): ?int
 {
-    $pdo = get_db_connection();
-    $stmt = $pdo->prepare('INSERT INTO posts (user_id, title, body, image_path) VALUES (?, ?, ?, ?)');
-    $result = $stmt->execute([$userId, $data['title'], $data['body'], $data['image_path'] ?? null]);
-    if (!$result) {
+    $db = get_db_connection();
+    if (!$db) {
+        echo "Database connection failed.";
         return null;
     }
+    $sql = "INSERT INTO posts (user_id, title, price, product_type, body, image_path) 
+            VALUES (:user_id, :title, :price, :product_type, :body, :image_path)";
 
-    return (int) $pdo->lastInsertId();
-}
+    $stmt = $db->prepare($sql);
+    $success = $stmt->execute([
+        'user_id' => $userId,
+        'title' => $data['title'],
+        'price' => $data['price'],
+        'product_type' => $data['product_type'],
+        'body' => $data['body'],
+        'image_path' => $data['image_path']
+    ]);
 
-function update_post(int $postId, int $userId, array $data): bool
-{
-    $pdo = get_db_connection();
-    $stmt = $pdo->prepare('UPDATE posts SET title = ?, body = ?, image_path = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
-    return $stmt->execute([$data['title'], $data['body'], $data['image_path'] ?? null, $postId, $userId]);
+    return $success ? (int) $db->lastInsertId() : null;
 }
 
 function delete_post(int $postId, int $userId): bool
@@ -706,6 +801,29 @@ function delete_post(int $postId, int $userId): bool
 }
 
 // Store functions
+function get_full_store_profile(int $userId): ?array
+{
+    $db = get_db_connection();
+
+    $stmtStore = $db->prepare('SELECT * FROM stores WHERE user_id = ? LIMIT 1');
+    $stmtStore->execute([$userId]);
+    $store = $stmtStore->fetch(PDO::FETCH_ASSOC);
+
+    if (!$store) {
+        return null;
+    }
+
+    $stmtProducts = $db->prepare('SELECT * FROM posts WHERE user_id = ? AND deleted_at IS NULL ORDER BY created_at DESC');
+    $stmtProducts->execute([$userId]);
+    $products = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'details' => $store,
+        'products' => $products,
+        'count' => count($products)
+    ];
+}
+
 function create_store(int $userId, array $data): int
 {
     $pdo = get_db_connection();
@@ -762,40 +880,69 @@ function create_store(int $userId, array $data): int
     }
 }
 
-function get_store_by_user(int $userId): ?array
+function get_product_by_id(int $id): ?array
 {
-    $pdo = get_db_connection();
-    $stmt = $pdo->prepare('SELECT * FROM stores WHERE user_id = ? LIMIT 1');
-    $stmt->execute([$userId]);
-    $store = $stmt->fetch();
-    return $store ?: null;
+    try {
+        $db = get_db_connection();
+        $stmt = $db->prepare("SELECT * FROM posts WHERE id = :id AND deleted_at IS NULL LIMIT 1");
+        $stmt->execute(['id' => $id]);
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $product ?: null;
+    } catch (PDOException $e) {
+        // This will log the error so you can see why it failed
+        error_log("Database Error: " . $e->getMessage());
+        return null;
+    }
 }
 
-function get_store_by_slug(string $slug): ?array
+function update_post(int $postId, array $data): bool
 {
-    $pdo = get_db_connection();
-    $stmt = $pdo->prepare('SELECT s.*, u.name as owner_name FROM stores s JOIN users u ON u.id = s.user_id WHERE s.slug = ? LIMIT 1');
-    $stmt->execute([$slug]);
-    $store = $stmt->fetch();
-    return $store ?: null;
+    $db = get_db_connection();
+    if (!$db)
+        return false;
+
+    // We build the SQL dynamically to only update the image if a new one is provided
+    $sql = "UPDATE posts SET 
+                title = :title, 
+                price = :price, 
+                product_type = :product_type, 
+                body = :body";
+
+    // Add image path update only if present in data
+    if (!empty($data['image_path'])) {
+        $sql .= ", image_path = :image_path";
+    }
+
+    $sql .= " WHERE id = :post_id";
+
+    $stmt = $db->prepare($sql);
+
+    $params = [
+        'title' => $data['title'],
+        'price' => $data['price'],
+        'product_type' => $data['product_type'],
+        'body' => $data['body'],
+        'post_id' => $postId
+    ];
+
+    if (!empty($data['image_path'])) {
+        $params['image_path'] = $data['image_path'];
+    }
+
+    return $stmt->execute($params);
 }
 
-function update_store(int $storeId, int $userId, array $data): bool
+function soft_delete_post(int $postId, int $userId): bool
 {
-    $pdo = get_db_connection();
-    $stmt = $pdo->prepare('UPDATE stores SET name = ?, description = ?, logo = ?, address = ?, phone = ?, email = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
+    $db = get_db_connection();
+    $sql = "UPDATE posts SET deleted_at = NOW() WHERE id = :post_id AND user_id = :user_id";
+    $stmt = $db->prepare($sql);
     return $stmt->execute([
-        $data['name'],
-        $data['description'] ?? null,
-        $data['logo'] ?? null,
-        $data['address'] ?? null,
-        $data['phone'] ?? null,
-        $data['email'] ?? null,
-        $storeId,
-        $userId,
+        'post_id' => $postId,
+        'user_id' => $userId
     ]);
 }
-
 function is_store_owner(): bool
 {
     $user = current_user();
@@ -804,5 +951,5 @@ function is_store_owner(): bool
 
 function user_has_store(int $userId): bool
 {
-    return get_store_by_user($userId) !== null;
+    return get_full_store_profile($userId) !== null;
 }

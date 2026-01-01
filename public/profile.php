@@ -36,16 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $orders = get_orders_by_user((int) $user['id']);
+$products = find_product_by_id((int) $orders[0]['product_id'] ?? 0);
 $wishlistCount = count(get_wishlist((int) $user['id']));
 
-// Check if user has a store (handle case where stores table may not exist)
 $userStore = null;
 $isStoreOwner = false;
 try {
-    $userStore = get_store_by_user((int) $user['id']);
+    $userStore = get_full_store_profile((int) $user['id']);
     if ($userStore) {
         $isStoreOwner = true;
-        // Update session role if needed
         $_SESSION['user']['role'] = 'store_owner';
         $user['role'] = 'store_owner';
     }
@@ -67,19 +66,19 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
         <div class="profile-header-actions">
             <?php if ($isStoreOwner): ?>
-            <a href="<?php echo BASE_URL; ?>store_add_product.php" class="post-product-btn">
-                <span class="post-icon">📦</span>
-                <span>Post Product</span>
-            </a>
-            <a href="<?php echo BASE_URL; ?>my_store.php" class="create-store-btn">
-                <span class="store-icon">🏪</span>
-                <span>My Store</span>
-            </a>
+                <a href="<?php echo BASE_URL; ?>post_create.php" class="post-product-btn">
+                    <span class="post-icon">📦</span>
+                    <span>Post Product</span>
+                </a>
+                <a href="<?php echo BASE_URL; ?>my_store.php" class="create-store-btn">
+                    <span class="store-icon">🏪</span>
+                    <span>My Store</span>
+                </a>
             <?php else: ?>
-            <a href="<?php echo BASE_URL; ?>create_store.php" class="create-store-btn">
-                <span class="store-icon">🏪</span>
-                <span>Create Store</span>
-            </a>
+                <a href="<?php echo BASE_URL; ?>create_store.php" class="create-store-btn">
+                    <span class="store-icon">🏪</span>
+                    <span>Create Store</span>
+                </a>
             <?php endif; ?>
         </div>
     </div>
@@ -104,7 +103,8 @@ require_once __DIR__ . '/../includes/header.php';
     <section class="profile-section">
         <h2>Account Settings</h2>
         <?php if ($message): ?>
-            <div class="auth-alert" style="background: rgba(22, 163, 74, 0.1); color: var(--success); border: 1px solid rgba(22, 163, 74, 0.2);">
+            <div class="auth-alert"
+                style="background: rgba(22, 163, 74, 0.1); color: var(--success); border: 1px solid rgba(22, 163, 74, 0.2);">
                 <?php echo htmlspecialchars($message); ?>
             </div>
         <?php endif; ?>
@@ -145,8 +145,9 @@ require_once __DIR__ . '/../includes/header.php';
                 <?php foreach (array_slice($orders, 0, 5) as $order): ?>
                     <div class="order-item">
                         <div class="order-details">
-                            <strong>Order #<?php echo $order['id']; ?></strong>
+                            <strong><?php echo $products['title']; ?></strong>
                             <span><?php echo date('M d, Y', strtotime($order['created_at'])); ?></span>
+                            <p style="color:green;"><?php echo htmlspecialchars($order['message'] ?? ''); ?></p>
                         </div>
                         <div class="order-status">
                             <span class="status-badge status-<?php echo strtolower($order['status']); ?>">
@@ -157,7 +158,8 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
                 <?php endforeach; ?>
             </div>
-            <a href="<?php echo BASE_URL; ?>orders.php" class="btn btn-outline" style="margin-top: 1rem;">View All Orders</a>
+            <a href="<?php echo BASE_URL; ?>orders.php" class="btn btn-outline" style="margin-top: 1rem;">View All
+                Orders</a>
         <?php endif; ?>
     </section>
 </div>

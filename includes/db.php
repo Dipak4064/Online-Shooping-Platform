@@ -20,8 +20,5 @@ function get_db_connection(): PDO
         echo 'Database connection failed. Check configuration.'. $e->getMessage();
         exit;
     }
-
-    
-
     return $pdo;
 }
