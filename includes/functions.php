@@ -479,7 +479,7 @@ function get_transaction_by_uuid(string $transactionUuid): ?array
     $row = $stmt->fetch();
     return $row ?: null;
 }
-function create_order_record($u_id, $b_name, $p_id, $address, $message, $amount, $status = 'pending') 
+function create_order_record($u_id, $b_name, $p_id, $address, $message, $amount, $status = 'pending')
 {
     $pdo = get_db_connection();
 
@@ -489,20 +489,29 @@ function create_order_record($u_id, $b_name, $p_id, $address, $message, $amount,
             VALUES (?, ?, ?, ?, ?, ?, ?)");
 
         $stmt->execute([
-            (int)$u_id,
+            (int) $u_id,
             $b_name,
-            (int)$p_id,
+            (int) $p_id,
             $address,
             $message,
             $amount,
             $status
         ]);
 
-        return (int)$pdo->lastInsertId();
+        return (int) $pdo->lastInsertId();
     } catch (PDOException $e) {
         error_log("Order Record Creation Error: " . $e->getMessage());
         return false;
     }
+}
+
+function get_order_by_id(int $orderId): ?array
+{
+    $pdo = get_db_connection();
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE id = ? LIMIT 1');
+    $stmt->execute([$orderId]);
+    $row = $stmt->fetch();
+    return $row ?: null;
 }
 
 function get_orders_by_user(int $userId): array

@@ -49,6 +49,10 @@ $user = current_user();
             <input type="radio" name="payment_method" value="esewa">
             eSewa (digital wallet)
         </label>
+        <label class="radio">
+            <input type="radio" name="payment_method" value="khalti">
+            Khalti (digital wallet)
+        </label>
 
         <button type="submit" class="btn">Place order</button>
     </form>

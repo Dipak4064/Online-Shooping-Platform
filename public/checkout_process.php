@@ -54,7 +54,7 @@ if ($paymentMethod === 'esewa') {
 
     $format = fn(float $amount) => number_format($amount, 2, '.', '');
 
-    echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Redirecting to eSewa</title></head><body>'; 
+    echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Redirecting to eSewa</title></head><body>';
     echo '<p>Redirecting to eSewa, please wait...</p>';
     echo '<form id="esewaForm" method="post" action="' . htmlspecialchars($esewaUrl) . '">';
     echo '<input type="hidden" name="amt" value="' . $format($totals['subtotal']) . '">';
@@ -69,6 +69,55 @@ if ($paymentMethod === 'esewa') {
     echo '</form>';
     echo '<script>document.getElementById("esewaForm").submit();</script>';
     echo '</body></html>';
+    exit;
+}
+
+if ($paymentMethod === 'khalti') {
+    $purchaseOrderId = 'ORDER-' . $orderId;
+    $pdo = get_db_connection();
+    $stmt = $pdo->prepare('UPDATE orders SET payment_token = ? WHERE id = ?');
+    $stmt->execute([$purchaseOrderId, $orderId]);
+
+    // Khalti expects amount in paisa (1 Rs = 100 paisa)
+    $amountInPaisa = (int) round($totals['total'] * 100);
+
+    $khaltiUrl = KHALTI_ENV === 'live'
+        ? 'https://khalti.com/api/v2/epayment/initiate/'
+        : 'https://a.khalti.com/api/v2/epayment/initiate/';
+
+    $payload = json_encode([
+        'return_url' => KHALTI_SUCCESS_URL,
+        'website_url' => SITE_URL,
+        'amount' => $amountInPaisa,
+        'purchase_order_id' => $purchaseOrderId,
+        'purchase_order_name' => 'Order #' . $orderId,
+    ]);
+
+    $ch = curl_init($khaltiUrl);
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $payload,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: key ' . KHALTI_SECRET_KEY,
+            'Content-Type: application/json',
+        ],
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $data = json_decode($response, true);
+
+    if ($httpCode === 200 && !empty($data['payment_url'])) {
+        header('Location: ' . $data['payment_url']);
+        exit;
+    }
+
+    // Fallback: API initiation failed
+    echo 'Khalti payment initiation failed. ';
+    echo '<pre>' . htmlspecialchars($response) . '</pre>';
+    echo '<a href="' . htmlspecialchars(BASE_URL) . 'orders.php">Back to orders</a>';
     exit;
 }
 

@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/header.php';
 
+require_login();
+
 $productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $product = get_post_by_id($productId);
 
