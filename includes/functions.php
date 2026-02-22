@@ -479,6 +479,58 @@ function get_transaction_by_uuid(string $transactionUuid): ?array
     $row = $stmt->fetch();
     return $row ?: null;
 }
+
+function create_order(int $userId, array $items, array $totals, array $shipping, string $paymentMethod): int
+{
+    $pdo = get_db_connection();
+    
+    try {
+        $pdo->beginTransaction();
+        
+        $stmt = $pdo->prepare("INSERT INTO orders 
+            (user_id, total_amount, tax_amount, shipping_amount, payment_method, status, 
+             shipping_name, shipping_phone, shipping_address, shipping_city, shipping_zip) 
+            VALUES (?, ?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?)");
+        
+        $stmt->execute([
+            $userId,
+            $totals['total'],
+            $totals['tax'],
+            $totals['shipping'],
+            $paymentMethod,
+            $shipping['name'],
+            $shipping['phone'],
+            $shipping['address'],
+            $shipping['city'],
+            $shipping['zip']
+        ]);
+        
+        $orderId = (int) $pdo->lastInsertId();
+        
+        $itemStmt = $pdo->prepare("INSERT INTO order_items 
+            (order_id, product_id, quantity, unit_price, total_price) 
+            VALUES (?, ?, ?, ?, ?)");
+        
+        foreach ($items as $item) {
+            $itemStmt->execute([
+                $orderId,
+                $item['product_id'],
+                $item['quantity'],
+                $item['price'],
+                $item['price'] * $item['quantity']
+            ]);
+        }
+        
+        $pdo->commit();
+        return $orderId;
+        
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        error_log("Order Creation Error: " . $e->getMessage());
+        throw $e;
+    }
+}
+
 function create_order_record($u_id, $b_name, $p_id, $address, $message, $amount, $status = 'pending')
 {
     $pdo = get_db_connection();

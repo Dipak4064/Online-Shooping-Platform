@@ -20,7 +20,6 @@ $amount = $product['price'];
 $tax_amount = $amount * 0.13;
 $total_amount = $amount + $tax_amount;
 
-// Khalti expects amount in paisa (1 Rs = 100 paisa)
 $amount_in_paisa = (int) round($total_amount * 100);
 
 $transaction_uuid = 'KHALTI-' . time() . '-' . $productId;

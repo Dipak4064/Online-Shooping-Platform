@@ -86,7 +86,7 @@ if ($paymentMethod === 'khalti') {
         : 'https://a.khalti.com/api/v2/epayment/initiate/';
 
     $payload = json_encode([
-        'return_url' => KHALTI_SUCCESS_URL,
+        'return_url' => KHALTI_SUCCESS_URL . '?order_id=' . $orderId,
         'website_url' => SITE_URL,
         'amount' => $amountInPaisa,
         'purchase_order_id' => $purchaseOrderId,

@@ -24,21 +24,34 @@ $txn = get_transaction_by_uuid($transaction_uuid);
 $p_id = $txn['product_id'] ?? 0;
 
 if ($status === 'COMPLETE') {
-    $baseUrl = "https://rc.esewa.com.np/api/epay/transaction/status/";
-    $fullUrl = $baseUrl . "?product_code=" . urlencode($product_code) . "&transaction_uuid=" . urlencode($transaction_uuid) . "&total_amount=" . urlencode($amount);
+    $verified = false;
 
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => $fullUrl,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-    ));
+    // Skip eSewa verification for Khalti (already verified in khalti_success.php)
+    if ($payment_method === 'Khalti') {
+        $verified = true;
+    } else {
+        // eSewa verification
+        $baseUrl = "https://rc.esewa.com.np/api/epay/transaction/status/";
+        $fullUrl = $baseUrl . "?product_code=" . urlencode($product_code) . "&transaction_uuid=" . urlencode($transaction_uuid) . "&total_amount=" . urlencode($amount);
 
-    $response = curl_exec($curl);
-    curl_close($curl);
-    $verification = json_decode($response, true);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $fullUrl,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
 
-    if (isset($verification['status']) && $verification['status'] === 'COMPLETE') {
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $verification = json_decode($response, true);
+
+        if (isset($verification['status']) && $verification['status'] === 'COMPLETE') {
+            $verified = true;
+            $transaction_id = $verification['ref_id'] ?? $transaction_id;
+        }
+    }
+
+    if ($verified) {
         $pdo = get_db_connection();
 
         $update = $pdo->prepare("UPDATE transaction SET 
@@ -47,7 +60,7 @@ if ($status === 'COMPLETE') {
             WHERE uuid_id = ? AND status = 'pending'");
 
         $update->execute([
-            $verification['ref_id'] ?? $transaction_id,
+            $transaction_id,
             $transaction_uuid
         ]);
         if (isset($_SESSION['user'])) {
