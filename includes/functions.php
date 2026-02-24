@@ -814,7 +814,6 @@ function update_user_profile(int $userId, array $data): bool
     return $result;
 }
 
-//post functions
 function get_posts(): array
 {
     $pdo = get_db_connection();
@@ -861,7 +860,6 @@ function delete_post(int $postId, int $userId): bool
     return $stmt->execute([$postId, $userId]);
 }
 
-// Store functions
 function get_full_store_profile(int $userId): ?array
 {
     $db = get_db_connection();
@@ -890,7 +888,6 @@ function create_store(int $userId, array $data): int
     $pdo = get_db_connection();
 
     try {
-        // Generate slug from store name
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $data['name'])));
         $slug = trim($slug, '-');
 
@@ -898,18 +895,16 @@ function create_store(int $userId, array $data): int
             $slug = 'store-' . time();
         }
 
-        // Check if slug already exists
         $stmt = $pdo->prepare('SELECT id FROM stores WHERE slug = ? LIMIT 1');
         $stmt->execute([$slug]);
         if ($stmt->fetch()) {
             $slug = $slug . '-' . time();
         }
 
-        // Check if user already has a store
         $stmt = $pdo->prepare('SELECT id FROM stores WHERE user_id = ? LIMIT 1');
         $stmt->execute([$userId]);
         if ($stmt->fetch()) {
-            return 0; // User already has a store
+            return 0;
         }
 
         $stmt = $pdo->prepare('INSERT INTO stores (user_id, name, slug, description, logo, address, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
@@ -929,8 +924,6 @@ function create_store(int $userId, array $data): int
         }
 
         $storeId = (int) $pdo->lastInsertId();
-
-        // Update user role to store_owner
         $stmt = $pdo->prepare('UPDATE users SET role = ? WHERE id = ?');
         $stmt->execute(['store_owner', $userId]);
 
@@ -951,7 +944,6 @@ function get_product_by_id(int $id): ?array
 
         return $product ?: null;
     } catch (PDOException $e) {
-        // This will log the error so you can see why it failed
         error_log("Database Error: " . $e->getMessage());
         return null;
     }
@@ -963,14 +955,12 @@ function update_post(int $postId, array $data): bool
     if (!$db)
         return false;
 
-    // We build the SQL dynamically to only update the image if a new one is provided
     $sql = "UPDATE posts SET 
                 title = :title, 
                 price = :price, 
                 product_type = :product_type, 
                 body = :body";
 
-    // Add image path update only if present in data
     if (!empty($data['image_path'])) {
         $sql .= ", image_path = :image_path";
     }
