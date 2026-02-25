@@ -15,7 +15,8 @@ require_once __DIR__ . '/../includes/header.php';
 <section class="about-story-section">
     <div class="about-grid">
         <div class="about-image">
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=450&fit=crop" alt="Shopping Experience">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=450&fit=crop"
+                alt="Shopping Experience">
             <div class="about-image-badge">
                 <span class="years">5+</span>
                 <span class="text">Years of Trust</span>
@@ -24,9 +25,13 @@ require_once __DIR__ . '/../includes/header.php';
         <div class="about-text">
             <span class="about-label">Who We Are</span>
             <h2>We're Passionate About Delivering Quality</h2>
-            <p>At <?php echo APP_NAME; ?>, we believe that online shopping should be simple, enjoyable, and reliable. Founded with a mission to bring the best products directly to your doorstep, we've grown from a small startup to a trusted e-commerce destination serving thousands of happy customers.</p>
-            <p>Our team carefully curates each product in our collection, ensuring that you get only the best quality at competitive prices. We partner with trusted brands and suppliers to bring you authentic products every time.</p>
-            
+            <p>At <?php echo APP_NAME; ?>, we believe that online shopping should be simple, enjoyable, and reliable.
+                Founded with a mission to bring the best products directly to your doorstep, we've grown from a small
+                startup to a trusted e-commerce destination serving thousands of happy customers.</p>
+            <p>Our team carefully curates each product in our collection, ensuring that you get only the best quality at
+                competitive prices. We partner with trusted brands and suppliers to bring you authentic products every
+                time.</p>
+
             <div class="about-features">
                 <div class="about-feature">
                     <span class="feature-icon">✓</span>
@@ -45,7 +50,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <span>24/7 Customer Support</span>
                 </div>
             </div>
-            
+
             <a href="<?php echo BASE_URL; ?>products.php" class="btn-shop-now-about">Shop Now →</a>
         </div>
     </div>
@@ -58,7 +63,7 @@ require_once __DIR__ . '/../includes/header.php';
         <h2>What Makes Us Different</h2>
         <p>We go above and beyond to ensure your shopping experience is nothing short of exceptional</p>
     </div>
-    
+
     <div class="features-grid">
         <div class="feature-card">
             <div class="feature-icon-box">
@@ -119,9 +124,10 @@ require_once __DIR__ . '/../includes/header.php';
         <div class="promise-content">
             <span class="about-label">Our Promise</span>
             <h2>Shopping Made Simple & Secure</h2>
-            <p>We understand that trust is earned. That's why we're committed to transparency in everything we do – from honest product descriptions to clear pricing with no hidden fees.</p>
+            <p>We understand that trust is earned. That's why we're committed to transparency in everything we do – from
+                honest product descriptions to clear pricing with no hidden fees.</p>
             <p>Every purchase is protected by our buyer guarantee. If something goes wrong, we'll make it right.</p>
-            
+
             <div class="promise-list">
                 <div class="promise-item">
                     <span class="promise-check">✓</span>
@@ -147,7 +153,8 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
         </div>
         <div class="promise-image">
-            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=500&fit=crop" alt="Secure Shopping">
+            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=500&fit=crop"
+                alt="Secure Shopping">
         </div>
     </div>
 </section>
@@ -163,15 +170,5 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
     </div>
 </section>
-
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
-<!-- <section class="about-cta-banner">
-    <div class="cta-overlay"></div>
-    <div class="cta-content">
-        <span class="cta-subtitle">Shop With Us</span>
-        <h2>We Are Always Ready To<br>Serve You Better</h2>
-        <a href="<?php echo BASE_URL; ?>products.php" class="btn-cta-start">Get Started</a>
-    </div>
-</section> -->
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

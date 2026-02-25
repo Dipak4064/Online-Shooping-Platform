@@ -66,34 +66,38 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="brand-wrapper">
-    <div class="brand-container">
-        <header class="form-title">
-            <h1>New Listing</h1>
-            <p>Define your product details below.</p>
-        </header>
+<div class="create-product-page">
+    <div class="create-container">
+        <div class="create-header">
+            <div class="header-icon">📦</div>
+            <h1>Create New Product</h1>
+            <p>Add your product to the marketplace</p>
+        </div>
 
         <?php if ($error): ?>
-            <div class="brand-error"><?php echo htmlspecialchars($error); ?></div>
+            <div class="error-alert">
+                <span class="error-icon">⚠️</span>
+                <?php echo htmlspecialchars($error); ?>
+            </div>
         <?php endif; ?>
 
-        <form method="post" enctype="multipart/form-data" class="brand-form">
-            <div class="input-section">
-                <label>Product Name</label>
-                <input type="text" name="title" placeholder="e.g. Minimalist Watch"
+        <form method="post" enctype="multipart/form-data" class="create-form">
+            <div class="form-group">
+                <label for="title">Product Name</label>
+                <input type="text" id="title" name="title" placeholder="Enter product name"
                     value="<?= htmlspecialchars($title) ?>" required>
             </div>
 
-            <div class="row">
-                <div class="input-section">
-                    <label>Price</label>
-                    <input type="number" name="price" step="0.01" placeholder="0.00"
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="price">Price (Rs.)</label>
+                    <input type="number" id="price" name="price" step="0.01" placeholder="0.00"
                         value="<?= htmlspecialchars($price) ?>" required>
                 </div>
-                <div class="input-section">
-                    <label>Category</label>
-                    <select name="product_type" required>
-                        <option value="" disabled selected>Select Category</option>
+                <div class="form-group">
+                    <label for="product_type">Category</label>
+                    <select id="product_type" name="product_type" required>
+                        <option value="" disabled selected>Choose category</option>
                         <?php foreach ($categories as $cat): ?>
                             <option value="<?= htmlspecialchars($cat['name']) ?>">
                                 <?= htmlspecialchars($cat['name']) ?>
@@ -103,158 +107,240 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
             </div>
 
-            <div class="input-section">
-                <label>Description</label>
-                <textarea name="body" rows="4" placeholder="Describe your item..."
+            <div class="form-group">
+                <label for="body">Description</label>
+                <textarea id="body" name="body" rows="5" placeholder="Describe your product in detail..."
                     required><?= htmlspecialchars($body) ?></textarea>
             </div>
 
-            <div class="input-section">
+            <div class="form-group">
                 <label>Product Image</label>
-                <div class="file-upload">
+                <div class="image-upload-area">
+                    <div class="upload-content">
+                        <span class="upload-icon">🖼️</span>
+                        <span class="upload-text">Click to upload image</span>
+                        <span class="upload-hint">PNG, JPG up to 5MB</span>
+                    </div>
                     <input type="file" name="image" accept="image/*" required>
                 </div>
             </div>
 
-            <div class="brand-actions">
-                <button type="submit" class="btn-black">Publish to Store</button>
-                <a href="profile.php" class="cancel-link">Cancel</a>
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <span>🚀</span> Publish Product
+                </button>
+                <a href="my_store.php" class="btn-cancel">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 
 <style>
-    :root {
-        --brand-black: #111111;
-        --brand-gray: #757575;
-        --brand-border: #e5e5e5;
-        --brand-bg: #ffffff;
+    .create-product-page {
+        min-height: 100vh;
+        padding: 40px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .brand-wrapper {
-        background: var(--brand-bg);
-        min-height: 80vh;
-        padding: 60px 20px;
-        color: var(--brand-black);
+    .create-container {
+        width: 100%;
+        max-width: 580px;
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     }
 
-    .brand-container {
-        max-width: 500px;
-        margin: 0 auto;
-    }
-
-    .form-title {
+    .create-header {
         text-align: center;
         margin-bottom: 40px;
     }
 
-    .form-title h1 {
+    .header-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+    }
+
+    .create-header h1 {
         font-size: 28px;
-        font-weight: 500;
-        letter-spacing: -0.5px;
-        margin-bottom: 8px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 8px 0;
     }
 
-    .form-title p {
-        color: var(--brand-gray);
-        font-size: 14px;
+    .create-header p {
+        color: #6b7280;
+        font-size: 16px;
+        margin: 0;
     }
 
-    .brand-form {
+    .error-alert {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+        padding: 14px 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+    }
+
+    .error-icon {
+        font-size: 18px;
+    }
+
+    .create-form {
         display: flex;
         flex-direction: column;
         gap: 24px;
     }
 
-    .row {
+    .form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
     }
 
-    .input-section {
+    .form-group {
         display: flex;
         flex-direction: column;
         gap: 8px;
     }
 
-    .input-section label {
-        font-size: 12px;
+    .form-group label {
+        font-size: 14px;
         font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        color: #374151;
     }
 
-    input,
-    textarea,
-    select {
-        border: 1px solid var(--brand-border);
-        padding: 12px 16px;
-        border-radius: 0px;
-        /* Branded sharp corners or subtle 2px */
-        font-size: 15px;
-        transition: border-color 0.2s;
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 14px 18px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 16px;
+        color: #1f2937;
+        background: #f9fafb;
         outline: none;
-        -webkit-appearance: none;
     }
 
-    input:focus,
-    textarea:focus {
-        border-color: var(--brand-black);
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        border-color: #1f2937;
+        background: white;
     }
 
-    .brand-error {
-        color: #d32f2f;
-        font-size: 13px;
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: #9ca3af;
+    }
+
+    .image-upload-area {
+        position: relative;
+        border: 2px dashed #d1d5db;
+        border-radius: 12px;
+        padding: 40px 20px;
         text-align: center;
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #f8d7da;
+        background: #f9fafb;
+        cursor: pointer;
     }
 
-    .brand-actions {
+    .image-upload-area:hover {
+        border-color: #1f2937;
+        background: #f9fafb;
+    }
+
+    .image-upload-area input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .upload-content {
         display: flex;
         flex-direction: column;
-        gap: 16px;
-        margin-top: 20px;
+        align-items: center;
+        gap: 8px;
     }
 
-    .btn-black {
-        background: var(--brand-black);
+    .upload-icon {
+        font-size: 36px;
+    }
+
+    .upload-text {
+        font-size: 15px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .upload-hint {
+        font-size: 13px;
+        color: #9ca3af;
+    }
+
+    .form-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 10px;
+    }
+
+    .btn-submit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 16px 24px;
+        background: #1f2937;
         color: white;
         border: none;
-        padding: 16px;
+        border-radius: 12px;
+        font-size: 17px;
         font-weight: 600;
-        font-size: 14px;
         cursor: pointer;
-        transition: opacity 0.2s;
-        text-transform: uppercase;
-        letter-spacing: 1px;
     }
 
-    .btn-black:hover {
-        opacity: 0.8;
+    .btn-submit:hover {
+        background: #3b82f6;
     }
 
-    .cancel-link {
+    .btn-cancel {
         text-align: center;
-        font-size: 13px;
-        color: var(--brand-gray);
+        padding: 14px;
+        color: #6b7280;
         text-decoration: none;
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 12px;
     }
 
-    .cancel-link:hover {
-        color: var(--brand-black);
-        text-decoration: underline;
+    .btn-cancel:hover {
+        background: #f3f4f6;
+        color: #374151;
     }
 
-    /* Custom file input look */
-    .file-upload input {
-        border: none;
-        padding-left: 0;
-        font-size: 13px;
-        color: var(--brand-gray);
+    @media (max-width: 640px) {
+        .create-container {
+            padding: 30px 24px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .create-header h1 {
+            font-size: 24px;
+        }
     }
 </style>
 

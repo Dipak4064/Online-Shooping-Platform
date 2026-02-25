@@ -1,3 +1,23 @@
+</style>
+<style>
+    /* Remove style.css effects for View More button on this page only */
+    #toggleDescriptionBtn.btn-secondary {
+        border: none !important;
+        padding: 0.5em 1.2em !important;
+        border-radius: 6px !important;
+        background: #f3f4f6 !important;
+        color: #232f3e !important;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: none !important;
+        margin-bottom: 18px;
+        transition: background 0.2s;
+    }
+    #toggleDescriptionBtn.btn-secondary:hover {
+        background: #e5e7eb !important;
+        color: #000 !important;
+    }
+</style>
 <?php
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/header.php';
@@ -51,15 +71,31 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 Rs. <?= number_format($product['price'], 2) ?>
             </div>
 
-            <div class="product-description">
+
+            <div class="product-description" id="productDescription"
+                style="max-height: 220px; overflow: hidden; position: relative; margin-bottom: 10px; font-size: 1.08rem; line-height: 1.7; color: #000;">
                 <?= nl2br(htmlspecialchars($product['body'])) ?>
             </div>
-
-            <div class="product-actions">
-                <a href="payment.php?id=<?= $product['id'] ?>" class="btn-primary">
-                    Buy Now
-                </a>
+            <div class="product-action-row">
+                <button id="toggleDescriptionBtn" class="btn-secondary">View More</button>
+                <a href="payment.php?id=<?= $product['id'] ?>" class="btn-primary">Buy Now</a>
             </div>
+            <script>
+                const desc = document.getElementById('productDescription');
+                const btn = document.getElementById('toggleDescriptionBtn');
+                let expanded = false;
+                btn.addEventListener('click', function () {
+                    expanded = !expanded;
+                    if (expanded) {
+                        desc.style.maxHeight = 'none';
+                        btn.textContent = 'View Less';
+                    } else {
+                        desc.style.maxHeight = '220px';
+                        btn.textContent = 'View More';
+                        desc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                });
+            </script>
         </div>
     </div>
 
@@ -174,6 +210,18 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         color: #333;
     }
 
+    /* Related Section */
+    .related-products-section {
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 30px;
+        background: #fff;
+    }
+
+    .section-heading {
+        margin-bottom: 20px;
+    }
+
     /* Related Grid */
     .related-grid {
         display: grid;
@@ -202,8 +250,9 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     .related-image img {
-        max-width: 100%;
-        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .related-title {
@@ -221,6 +270,24 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .product-block {
             grid-template-columns: 1fr;
         }
+    }
+</style>
+
+<style>
+    .product-action-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        gap: 18px;
+    }
+</style>
+
+<style>
+    /* Scoped override for product description on this page only */
+    #productDescription {
+        background: none !important;
+        padding: 0 !important;
     }
 </style>
 

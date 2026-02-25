@@ -26,20 +26,13 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <section class="collection-hero">
     <div class="collection-hero-content">
-        <span class="collection-label">Collections</span>
+        <span class="collection-label">🛍️ Collections</span>
         <h1>Explore Our Products</h1>
         <p>Find the best items for your needs. Quality and variety guaranteed.</p>
     </div>
 </section>
 
-<div class="collection-breadcrumb">
-    <a href="<?php echo BASE_URL; ?>index.php">Home</a>
-    <span>›</span>
-    <span>All Products</span>
-</div>
-
 <div class="collection-container">
-
     <div class="search-bar-section">
         <form method="get" class="inline-search-form">
             <div class="filter-search">
@@ -137,12 +130,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     /* One Column Layout */
     .collection-container {
-        max-width: 1200px;
         margin: 0 auto;
         padding: 0 1rem 3rem;
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1rem;
     }
 
     .search-bar-section {
@@ -199,13 +191,13 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     .collection-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
     }
 
     .collection-product-card {
         background: #fff;
-        border-radius: 1rem;
+        border-radius: 0.5rem;
         overflow: hidden;
         border: 1px solid #eee;
         transition: transform .3s, box-shadow .3s;
@@ -231,16 +223,16 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     .product-details {
-        padding: 1.25rem;
-        flex: 1;
+        padding: 0.65rem;
         display: flex;
         flex-direction: column;
+        gap: 0.15rem;
     }
 
     .product-title {
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        margin-bottom: 0.5rem;
+        margin: 0;
     }
 
     .product-title a {
@@ -249,23 +241,23 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     .product-description {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         color: #718096;
-        margin-bottom: 1.5rem;
-        line-height: 1.5;
+        margin: 0;
+        line-height: 1.3;
     }
 
     .product-footer {
-        margin-top: auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-top: 0.25rem;
     }
 
     .product-price {
         font-weight: 700;
         color: #1a73e8;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
     }
 
     /* No Products State */

@@ -41,7 +41,7 @@ $totalPayable = $product['price'] + $taxAmount;
 
                     <a href="khalti_pay.php?id=<?= $productId ?>" class="gateway-card khalti">
                         <div class="gateway-logo">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="40" viewBox="0 0 80 40"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="50" viewBox="0 0 80 40"
                                 fill="none">
                                 <rect width="80" height="40" fill="white" />
                                 <path
@@ -72,7 +72,8 @@ $totalPayable = $product['price'] + $taxAmount;
                                     d="M61.0948 19.0622C62.1237 19.0622 62.9577 18.2294 62.9577 17.202C62.9577 16.1746 62.1237 15.3418 61.0948 15.3418C60.066 15.3418 59.2319 16.1746 59.2319 17.202C59.2319 18.2294 60.066 19.0622 61.0948 19.0622Z"
                                     fill="#DC0019" />
                                 <script xmlns="" id="vsc-settings-data">{ }</script>
-                                <script xmlns="" /></svg>
+                                <script xmlns="" />
+                            </svg>
                         </div>
                         <div class="gateway-info">
                             <span class="gateway-name">Khalti</span>
@@ -83,7 +84,7 @@ $totalPayable = $product['price'] + $taxAmount;
                 </div>
 
                 <a href="product.php?id=<?= $productId ?>" class="back-link">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M19 12H5M12 19l-7-7 7-7" />
                     </svg>
                     Cancel and Return to Shop
@@ -122,7 +123,7 @@ $totalPayable = $product['price'] + $taxAmount;
                     </div>
 
                     <div class="secure-badge">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#059669">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#059669">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
                         SSL Secure Connection
@@ -145,13 +146,13 @@ $totalPayable = $product['price'] + $taxAmount;
 
     .checkout-wrapper {
         background: var(--bg-gray);
-        padding: 60px 20px;
+        padding: 80px 30px;
         min-height: 90vh;
         font-family: 'Inter', system-ui, sans-serif;
     }
 
     .checkout-container {
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
     }
 
@@ -201,51 +202,49 @@ $totalPayable = $product['price'] + $taxAmount;
     .checkout-grid {
         display: grid;
         grid-template-columns: 1.2fr 0.8fr;
-        gap: 40px;
+        gap: 60px;
     }
 
     /* LEFT SIDE: GATEWAYS */
     .section-title {
-        font-size: 28px;
+        font-size: 36px;
         font-weight: 800;
         color: var(--text-main);
-        margin-bottom: 8px;
+        margin-bottom: 12px;
     }
 
     .section-subtitle {
         color: var(--text-muted);
-        margin-bottom: 30px;
-        font-size: 15px;
+        margin-bottom: 40px;
+        font-size: 18px;
     }
 
     .gateway-list {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 24px;
     }
 
     .gateway-card {
         display: flex;
         align-items: center;
         background: white;
-        padding: 24px;
-        border-radius: 20px;
+        padding: 32px;
+        border-radius: 8px;
         text-decoration: none;
-        border: 2px solid transparent;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
     }
 
     .gateway-logo {
-        width: 100px;
-        height: 50px;
+        width: 120px;
+        height: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: #f1f5f9;
-        border-radius: 12px;
-        padding: 8px;
-        margin-right: 20px;
+        border-radius: 8px;
+        padding: 12px;
+        margin-right: 28px;
     }
 
     .gateway-logo img {
@@ -260,31 +259,24 @@ $totalPayable = $product['price'] + $taxAmount;
 
     .gateway-name {
         display: block;
-        font-size: 18px;
+        font-size: 24px;
         font-weight: 700;
         color: var(--text-main);
+        margin-bottom: 4px;
     }
 
     .gateway-desc {
-        font-size: 13px;
+        font-size: 18px;
         color: var(--text-muted);
     }
 
     .gateway-arrow {
-        font-size: 20px;
+        font-size: 32px;
         color: #cbd5e1;
-        opacity: 0;
-        transition: 0.3s;
     }
 
     .gateway-card:hover {
-        transform: translateX(8px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    }
-
-    .gateway-card:hover .gateway-arrow {
-        opacity: 1;
-        transform: translateX(5px);
+        border-color: #3b82f6;
     }
 
     .gateway-card.esewa:hover {
@@ -298,66 +290,66 @@ $totalPayable = $product['price'] + $taxAmount;
     /* RIGHT SIDE: SUMMARY */
     .summary-card {
         background: white;
-        padding: 30px;
-        border-radius: 24px;
+        padding: 40px;
+        border-radius: 8px;
         position: sticky;
         top: 40px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e5e7eb;
     }
 
     .summary-title {
-        font-size: 18px;
+        font-size: 28px;
         font-weight: 700;
-        margin-bottom: 20px;
+        margin-bottom: 28px;
     }
 
     .item-preview {
         display: flex;
-        gap: 15px;
-        margin-bottom: 25px;
-        padding-bottom: 20px;
+        gap: 20px;
+        margin-bottom: 30px;
+        padding-bottom: 25px;
         border-bottom: 1px solid #f1f5f9;
     }
 
     .item-preview img {
-        width: 64px;
-        height: 64px;
+        width: 100px;
+        height: 100px;
         object-fit: cover;
-        border-radius: 12px;
+        border-radius: 8px;
         background: #f8fafc;
     }
 
     .item-name {
         font-weight: 600;
-        font-size: 14px;
-        margin-bottom: 4px;
+        font-size: 20px;
+        margin-bottom: 8px;
         color: var(--text-main);
     }
 
     .item-qty {
-        font-size: 12px;
+        font-size: 16px;
         color: var(--text-muted);
     }
 
     .billing-details {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 16px;
     }
 
     .bill-row {
         display: flex;
         justify-content: space-between;
-        font-size: 14px;
+        font-size: 18px;
         color: var(--text-muted);
     }
 
     .bill-row.total {
-        margin-top: 15px;
-        padding-top: 15px;
+        margin-top: 20px;
+        padding-top: 20px;
         border-top: 2px solid #f1f5f9;
         color: var(--text-main);
-        font-size: 18px;
+        font-size: 24px;
         font-weight: 800;
     }
 
@@ -367,27 +359,27 @@ $totalPayable = $product['price'] + $taxAmount;
     }
 
     .secure-badge {
-        margin-top: 25px;
+        margin-top: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        font-size: 12px;
+        gap: 10px;
+        font-size: 16px;
         color: #059669;
         font-weight: 600;
         background: #ecfdf5;
-        padding: 10px;
-        border-radius: 10px;
+        padding: 16px;
+        border-radius: 4px;
     }
 
     .back-link {
-        margin-top: 30px;
+        margin-top: 40px;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
         color: var(--text-muted);
         text-decoration: none;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 500;
     }
 

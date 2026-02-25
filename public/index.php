@@ -8,7 +8,7 @@
 
 require_once __DIR__ . '/../includes/header.php';
 $pdo = get_db_connection();
-$stmt = $pdo->query("SELECT * FROM posts WHERE deleted_at IS NULL ORDER BY created_at ASC limit 12" );
+$stmt = $pdo->query("SELECT * FROM posts WHERE deleted_at IS NULL ORDER BY created_at ASC limit 12");
 $all_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $categories = get_categories();
@@ -53,12 +53,15 @@ $categories = get_categories();
 <section class="categories-section">
     <div class="section-header-row">
         <div class="section-header">
+
             <span class="section-badge">📦 Categories</span>
-            <h2>Browse by Category</h2>
-        </div>
-        <div class="section-nav">
-            <button class="nav-arrow">←</button>
-            <button class="nav-arrow">→</button>
+            <div class="section-header-row-flex">
+                <h2>Browse by Category</h2>
+                <div class="section-nav">
+                    <button class="nav-arrow">←</button>
+                    <button class="nav-arrow">→</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="categories-grid">
@@ -93,8 +96,22 @@ $categories = get_categories();
     </div>
 </section>
 
+<style>
+    .section-header-row-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100% !important;
+        gap: 2rem;
+    }
+
+    .section-header-row-flex h2 {
+        margin: 0;
+    }
+</style>
+
 <!-- Featured Banner -->
-<!-- <section class="featured-banner">
+<section class="featured-banner">
     <div class="banner-content">
         <span class="banner-badge">🎵 Don't Miss!!</span>
         <h2>Enhance Your<br>Music Experience</h2>
@@ -122,7 +139,7 @@ $categories = get_categories();
         <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&h=400&fit=crop"
             alt="Premium Headphones">
     </div>
-</section> -->
+</section>
 
 <!-- Explore Products -->
 <section class="products-section">
@@ -139,12 +156,6 @@ $categories = get_categories();
     <div class="products-grid">
         <?php foreach ($all_products as $index => $product): ?>
             <div class="product-card">
-                <h3 class="product-name">
-                    <a href="product.php?id=<?php echo $product['id']; ?>">
-                        <?php echo htmlspecialchars($product['title']); ?>
-                    </a>
-                </h3>
-
                 <a href="product.php?id=<?php echo $product['id']; ?>" class="product-image-link">
                     <div class="product-image">
                         <img src="<?php echo htmlspecialchars($product['image_path']); ?>"
@@ -153,16 +164,15 @@ $categories = get_categories();
                 </a>
 
                 <div class="product-footer">
-                    <div class="price-info">
-                        <span class="product-price">
-                            Rs. <?php echo number_format($product['price'], 2); ?>
-                        </span>
-                        <span class="category-badge">
-                            <?php echo htmlspecialchars($product['product_type']); ?>
-                        </span>
+                    <h3 class="product-name">
+                        <a href="product.php?id=<?php echo $product['id']; ?>">
+                            <?php echo htmlspecialchars($product['title']); ?>
+                        </a>
+                    </h3>
+                    <div class="price-buy-row">
+                        <span class="product-price">Rs. <?php echo number_format($product['price'], 2); ?></span>
+                        <a href="payment.php?id=<?php echo $product['id']; ?>" class="btn-buy-now">Buy Now</a>
                     </div>
-
-                    <a href="checkout.php?id=<?php echo $product['id']; ?>" class="btn-buy-now">Buy Now</a>
                 </div>
             </div>
         <?php endforeach; ?>
