@@ -15,7 +15,7 @@ function send_welcome_email($user_email, $user_name)
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = 'dt1414926@gmail.com';
-        $mail->Password = 'ghqh wfbj pvkp bevx';
+        $mail->Password = 'nzfh aiwb yzrq buxq';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
@@ -50,7 +50,7 @@ function send_payment_receipt($user_email, $user_name, $amount, $tx_id)
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = 'dt1414926@gmail.com';
-        $mail->Password = 'ghqh wfbj pvkp bevx';
+        $mail->Password = 'nzfh aiwb yzrq buxq';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
@@ -483,15 +483,15 @@ function get_transaction_by_uuid(string $transactionUuid): ?array
 function create_order(int $userId, array $items, array $totals, array $shipping, string $paymentMethod): int
 {
     $pdo = get_db_connection();
-    
+
     try {
         $pdo->beginTransaction();
-        
+
         $stmt = $pdo->prepare("INSERT INTO orders 
             (user_id, total_amount, tax_amount, shipping_amount, payment_method, status, 
              shipping_name, shipping_phone, shipping_address, shipping_city, shipping_zip) 
             VALUES (?, ?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?)");
-        
+
         $stmt->execute([
             $userId,
             $totals['total'],
@@ -504,13 +504,13 @@ function create_order(int $userId, array $items, array $totals, array $shipping,
             $shipping['city'],
             $shipping['zip']
         ]);
-        
+
         $orderId = (int) $pdo->lastInsertId();
-        
+
         $itemStmt = $pdo->prepare("INSERT INTO order_items 
             (order_id, product_id, quantity, unit_price, total_price) 
             VALUES (?, ?, ?, ?, ?)");
-        
+
         foreach ($items as $item) {
             $itemStmt->execute([
                 $orderId,
@@ -520,10 +520,10 @@ function create_order(int $userId, array $items, array $totals, array $shipping,
                 $item['price'] * $item['quantity']
             ]);
         }
-        
+
         $pdo->commit();
         return $orderId;
-        
+
     } catch (PDOException $e) {
         $pdo->rollBack();
         error_log("Order Creation Error: " . $e->getMessage());
