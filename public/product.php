@@ -263,8 +263,6 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         text-decoration: none;
     }
 
-    
-
     .card-link {
         text-decoration: none;
     }
