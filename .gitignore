@@ -5,10 +5,6 @@
 .env
 *.env
 
-# Uploaded files (user data)
-public/uploads/
-public/images/
-
 # IDE/editor files
 *.swp
 *.swo
