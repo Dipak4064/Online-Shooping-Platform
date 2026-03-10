@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/functions.php';
 start_session();
 $user = current_user();
@@ -12,7 +13,7 @@ $cartCount = array_sum(array_column($cartItems, 'quantity'));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo APP_NAME; ?></title>
-    <link rel="stylesheet" href="<?php echo SITE_URL; ?>css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <script defer src="<?php echo SITE_URL; ?>js/app.js"></script>
 </head>
 
