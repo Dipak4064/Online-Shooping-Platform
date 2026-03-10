@@ -157,8 +157,8 @@ $categories = get_categories();
         <?php foreach ($all_products as $index => $product): ?>
             <div class="product-card">
                 <a href="product.php?id=<?php echo $product['id']; ?>" class="product-image-link">
-                    <div class="product-image">
-                        <img src="<?php echo htmlspecialchars($product['image_path']); ?>"
+                    <div class="product-image"><img
+                            src="<?php echo htmlspecialchars(str_replace('/public', '', $product['image_path'])); ?>"
                             alt="<?php echo htmlspecialchars($product['title']); ?>">
                     </div>
                 </a>
