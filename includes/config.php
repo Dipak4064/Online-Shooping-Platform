@@ -1,30 +1,29 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', 'password');
-define('DB_NAME', 'sample_store');
+require_once __DIR__ . '/../vendor/autoload.php'; // For vlucas/phpdotenv
 
-define('ROOT_URL', 'http://localhost:8000/'); // Root of the project
-define('BASE_URL', 'http://localhost:8000/public/'); // Public folder URL
-define('SITE_URL', 'http://localhost:8000/public/'); // Needed for eSewa callbacks
-define('ADMIN_URL', 'http://localhost:8000/admin/'); // Admin folder URL
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
+define('DB_HOST', $_ENV['DB_HOST']);
+define('DB_USER', $_ENV['DB_USER']);
+define('DB_PASS', $_ENV['DB_PASS']);
+define('DB_NAME', $_ENV['DB_NAME']);
 
-define('APP_NAME', 'Sample Store');
+define('ROOT_URL', $_ENV['ROOT_URL']);
+define('BASE_URL', $_ENV['BASE_URL']);
+define('SITE_URL', $_ENV['SITE_URL']);
+define('ADMIN_URL', $_ENV['ADMIN_URL']);
 
-define('ESEWA_ENV', 'test'); // Values: test, live.
+define('APP_NAME', $_ENV['APP_NAME']);
+define('SESSION_COOKIE_LIFETIME', intval($_ENV['SESSION_COOKIE_LIFETIME']));
+define('PASSWORD_ALGO', PASSWORD_DEFAULT);
 
-define('ESEWA_MERCHANT_CODE', 'EPAYTEST');
+define('ESEWA_ENV', $_ENV['ESEWA_ENV']);
+define('ESEWA_MERCHANT_CODE', $_ENV['ESEWA_MERCHANT_CODE']);
 define('ESEWA_SUCCESS_URL', SITE_URL . 'esewa_success.php');
 define('ESEWA_FAILURE_URL', SITE_URL . 'esewa_failure.php');
 
-// Khalti Payment Gateway (test/live)
-define('KHALTI_ENV', 'test'); // Values: test, live.
-// Khalti test secret key (from https://test-admin.khalti.com/)
-define('KHALTI_SECRET_KEY', 'live_secret_key_68791341fdd94846a146f0457ff7b455');
+define('KHALTI_ENV', $_ENV['KHALTI_ENV']);
+define('KHALTI_SECRET_KEY', $_ENV['KHALTI_SECRET_KEY']);
 define('KHALTI_SUCCESS_URL', SITE_URL . 'khalti_success.php');
 define('KHALTI_FAILURE_URL', SITE_URL . 'khalti_failure.php');
-
-define('SESSION_COOKIE_LIFETIME', 60 * 60 * 24 * 7);
-
-define('PASSWORD_ALGO', PASSWORD_DEFAULT);

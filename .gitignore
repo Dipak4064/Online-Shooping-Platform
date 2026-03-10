@@ -1,0 +1,38 @@
+# Composer dependencies
+/vendor/
+
+# Environment/config files
+.env
+*.env
+
+# Uploaded files (user data)
+public/uploads/
+public/images/
+
+# IDE/editor files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.DS_Store
+.vscode/
+.idea/
+
+# System files
+Thumbs.db
+
+# Log files
+*.log
+
+# Cache
+cache/
+*.cache
+
+# PHPStorm
+*.iml
+
+# Node modules (if using npm/yarn)
+node_modules/
+
+# Misc
+*.~
