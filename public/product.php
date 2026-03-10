@@ -1,6 +1,5 @@
 </style>
 <style>
-    /* Remove style.css effects for View More button on this page only */
     #toggleDescriptionBtn.btn-secondary {
         border: none !important;
         padding: 0.5em 1.2em !important;
@@ -23,7 +22,6 @@
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/header.php';
 
-// 1. Get and validate ID
 $productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if (!$productId) {
@@ -31,7 +29,6 @@ if (!$productId) {
     exit;
 }
 
-// 2. Fetch the specific product from the 'posts' table
 $product = get_post_by_id($productId);
 
 if (!$product) {
@@ -211,7 +208,6 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         color: #333;
     }
 
-    /* Related Section */
     .related-products-section {
         border: 1px solid #e5e7eb;
         border-radius: 16px;
