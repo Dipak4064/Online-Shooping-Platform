@@ -63,7 +63,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <a href="<?php echo BASE_URL; ?>product.php?id=<?php echo $product['id']; ?>"
                             class="product-image-link">
                             <div class="product-image-wrapper">
-                                <img src="<?php echo htmlspecialchars($product['image_path']); ?>"
+                                <img src="<?php echo htmlspecialchars(str_replace('/public', '', $product['image_path'])); ?>"
                                     alt="<?php echo htmlspecialchars($product['title']); ?>">
                             </div>
                         </a>
