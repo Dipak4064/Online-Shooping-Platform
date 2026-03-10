@@ -52,8 +52,8 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="product-block">
 
         <div class="product-image-block">
-            <img src=" <?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['title']) ?>"
-                onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'">
+            <img src="<?php echo htmlspecialchars(str_replace('/public', '', $product['image_path'])); ?>"
+                alt="<?php echo htmlspecialchars($product['title']); ?>">
         </div>
 
         <div class="product-details-block">
@@ -108,9 +108,8 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="related-card">
                         <a href="product.php?id=<?= $item['id'] ?>" class="card-link">
                             <div class="related-image">
-                                <img src="<?= htmlspecialchars($item['image_path']) ?>"
-                                    alt="<?= htmlspecialchars($item['title']) ?>"
-                                    onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'">
+                                <img src="<?php echo htmlspecialchars(str_replace('/public', '', $item['image_path'])); ?>"
+                                    alt="<?php echo htmlspecialchars($item['title']); ?>">
                             </div>
                             <h6 class="related-title"><?= htmlspecialchars($item['title']) ?></h6>
                             <span class="related-price">Rs. <?= number_format($item['price'], 2) ?></span>
