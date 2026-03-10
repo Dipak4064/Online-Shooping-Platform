@@ -13,6 +13,7 @@
         margin-bottom: 18px;
         transition: background 0.2s;
     }
+
     #toggleDescriptionBtn.btn-secondary:hover {
         background: #e5e7eb !important;
         color: #000 !important;
@@ -54,7 +55,7 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="product-block">
 
         <div class="product-image-block">
-            <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['title']) ?>"
+            <img src=" <?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['title']) ?>"
                 onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'">
         </div>
 
