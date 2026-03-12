@@ -51,6 +51,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
     <?php endif; ?>
 
+    
     <section class="my-store-content">
         <div class="container">
             <div class="store-stats">
