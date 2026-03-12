@@ -57,34 +57,137 @@ $orders = get_orders_by_user((int) $user['id']);
 </div>
 
 <style>
-    .orders-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; font-family: 'Inter', sans-serif; }
-    .orders-header { margin-bottom: 30px; }
-    .orders-header h1 { font-size: 28px; font-weight: 800; color: #111827; margin: 0; }
-    .orders-header p { color: #6b7280; margin-top: 5px; }
+    .orders-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+        font-family: 'Inter', sans-serif;
+    }
 
-    /* Table Styles */
-    .table-responsive { background: white; border-radius: 16px; border: 1px solid #e5e7eb; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .modern-table { width: 100%; border-collapse: collapse; text-align: left; }
-    .modern-table th { background: #f9fafb; padding: 16px; font-size: 13px; font-weight: 600; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; }
-    .modern-table td { padding: 16px; border-top: 1px solid #e5e7eb; vertical-align: middle; }
+    .orders-header {
+        margin-bottom: 30px;
+    }
 
-    .order-id { font-weight: 700; color: #111827; }
-    .order-total { font-weight: 600; color: #059669; }
+    .orders-header h1 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #111827;
+        margin: 0;
+    }
+
+    .orders-header p {
+        color: #6b7280;
+        margin-top: 5px;
+    }
+
+    .table-responsive {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .modern-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .modern-table th {
+        background: #f9fafb;
+        padding: 16px;
+        font-size: 0.875rem;
+        font-weight: bold;
+        color: black;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .modern-table tbody tr:hover {
+        background: #f3f4f6;
+    }
+
+    .modern-table td {
+        padding: 16px;
+        border-bottom: 1px solid #e5e7eb;
+        vertical-align: middle;
+    }
+
+    .order-id {
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .order-total {
+        font-weight: 600;
+        color: #059669;
+    }
 
     /* Status Pills */
-    .status-pill { padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-    .status-successful { background: #ecfdf5; color: #059669; }
-    .status-pending { background: #fffbeb; color: #d97706; }
-    .status-failed { background: #fef2f2; color: #ef4444; }
+    .status-pill {
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .status-successful {
+        background: #ecfdf5;
+        color: #059669;
+    }
+
+    .status-pending {
+        background: #fffbeb;
+        color: #d97706;
+    }
+
+    .status-failed {
+        background: #fef2f2;
+        color: #ef4444;
+    }
 
     /* Button */
-    .view-action-btn { text-decoration: none; color: #374151; font-size: 14px; font-weight: 600; padding: 8px 16px; border: 1px solid #d1d5db; border-radius: 8px; transition: all 0.2s; }
-    .view-action-btn:hover { background: #f9fafb; border-color: #111827; color: #111827; }
+    .view-action-btn {
+        text-decoration: none;
+        color: #374151;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 8px 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+
+    .view-action-btn:hover {
+        background: #f9fafb;
+        border-color: #111827;
+        color: #111827;
+    }
 
     /* Empty State */
-    .empty-orders { text-align: center; padding: 60px 20px; background: white; border-radius: 16px; border: 2px dashed #e5e7eb; }
-    .empty-icon { font-size: 50px; margin-bottom: 20px; }
-    .shop-now-btn { display: inline-block; margin-top: 20px; background: #111827; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    .empty-orders {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 16px;
+        border: 2px dashed #e5e7eb;
+    }
+
+    .empty-icon {
+        font-size: 50px;
+        margin-bottom: 20px;
+    }
+
+    .shop-now-btn {
+        display: inline-block;
+        margin-top: 20px;
+        background: #111827;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+    }
 </style>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

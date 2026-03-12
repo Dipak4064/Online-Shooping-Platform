@@ -19,97 +19,142 @@ if (!$product) {
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
+<div class="product-container">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <div class="breadcrumb">
+        <a href="my_store.php">My Store</a>
+        <span> / </span>
+        <span class="active"><?= htmlspecialchars($product['product_type']); ?></span>
+    </div>
 
-<div class="container py-5 product-view-page">
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="my_store.php" class="text-decoration-none text-muted">My Store</a></li>
-            <li class="breadcrumb-item active fw-bold text-dark"><?= htmlspecialchars($product['product_type']); ?></li>
-        </ol>
-    </nav>
+    <div class="product-main-card">
 
-    <div class="product-main-card shadow-sm border-0">
-        <div class="row g-0">
-            <div class="col-md-6 bg-image-container">
+        <div class="product-grid">
+
+            <div class="image-side">
                 <div class="product-image-wrapper">
                     <?php if (!empty($product['image_path'])): ?>
                         <img src="<?= asset_url($product['image_path']); ?>" class="product-image-managed"
                             alt="<?= htmlspecialchars($product['title']); ?>">
                     <?php else: ?>
-                        <div class="no-image-placeholder text-center text-muted">
-                            <span class="d-block mb-2" style="font-size: 4rem;">📦</span>
-                            <p class="small fw-bold text-uppercase m-0">No Product Image</p>
+                        <div class="no-image-placeholder">
+                            <span class="icon">📦</span>
+                            <p>No Product Image</p>
                         </div>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <div class="col-md-6 p-4 p-lg-5 d-flex flex-column justify-content-center bg-white">
-                <div class="category-pill mb-3"><?= htmlspecialchars($product['product_type']); ?></div>
+            <div class="info-side">
 
-                <h1 class="product-title mb-3"><?= htmlspecialchars($product['title']); ?></h1>
-
-                <div class="price-box mb-4">
-                    <span class="price-label small text-muted text-uppercase fw-semibold">Price</span>
-                    <span class="price-value text-success h2 fw-bold">Rs.
-                        <?= number_format($product['price'], 2); ?></span>
+                <div class="category-pill">
+                    <?= htmlspecialchars($product['product_type']); ?>
                 </div>
 
-                <div class="admin-controls-box pt-4 border-top">
-                    <p class="admin-label small fw-bold text-secondary text-uppercase mb-3">Store Owner Actions</p>
-                    <div class="d-flex gap-2">
-                        <a href="edit_product.php?id=<?= $product['id']; ?>"
-                            class="btn-static btn-static-dark flex-grow-1">Edit Listing</a>
-                        <a href="post_delete.php?id=<?= $product['id']; ?>" class="btn-static btn-static-danger px-4"
-                            onclick="return confirm('Delete this product permanently?');">Delete</a>
+                <h1 class="product-title">
+                    <?= htmlspecialchars($product['title']); ?>
+                </h1>
+
+                <div class="price-box">
+                    <span class="price-label">Price</span>
+                    <span class="price-value">
+                        Rs. <?= number_format($product['price'], 2); ?>
+                    </span>
+                </div>
+
+                <div class="admin-controls-box">
+
+                    <p class="admin-label">Store Owner Actions</p>
+
+                    <div class="btn-group">
+                        <a href="edit_product.php?id=<?= $product['id']; ?>" class="btn-static btn-static-dark">Edit
+                            Listing</a>
+
+                        <a href="post_delete.php?id=<?= $product['id']; ?>" class="btn-static btn-static-danger"
+                            onclick="return confirm('Delete this product permanently?');">
+                            Delete
+                        </a>
                     </div>
-                    <a href="my_store.php"
-                        class="back-link mt-3 d-inline-block text-muted text-decoration-none small">← Back to
-                        Dashboard</a>
+
+                    <a href="my_store.php" class="back-link">
+                        ← Back to Dashboard
+                    </a>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
     <?php if (!empty($product['body'])): ?>
-        <div class="description-card shadow-sm mt-4 p-4 p-lg-5 bg-white">
-            <h4 class="fw-bold mb-3 border-bottom pb-2">Product Description</h4>
-            <div class="description-text text-secondary lead-small">
+
+        <div class="description-card">
+            <h4>Product Description</h4>
+
+            <div class="description-text">
                 <?= nl2br(htmlspecialchars($product['body'])); ?>
             </div>
         </div>
+
     <?php endif; ?>
+
 </div>
 
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
 <style>
-    /* 1. Base Layout Styling */
-    .product-view-page {
-        font-family: 'Inter', system-ui, sans-serif;
-        background-color: #f8f9fa;
+    .product-container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 40px 20px;
+        font-family: Inter, system-ui;
+    }
+
+    .breadcrumb {
+        margin-bottom: 20px;
+        color: #777;
+    }
+
+    .breadcrumb a {
+        text-decoration: none;
+        color: #777;
+    }
+
+    .breadcrumb .active {
+        font-weight: 700;
+        color: #111;
     }
 
     .product-main-card {
         background: #fff;
         border-radius: 12px;
-        overflow: hidden;
         border: 1px solid #e0e0e0;
+        overflow: hidden;
     }
 
-    /* 2. Image Management (Optimized) */
-    .bg-image-container {
-        background-color: #f1f1f1;
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .image-side {
+        flex: 1;
+        min-width: 300px;
+        background: #f1f1f1;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 450px;
+    }
+
+    .info-side {
+        flex: 1;
+        min-width: 300px;
+        padding: 40px;
     }
 
     .product-image-wrapper {
         padding: 30px;
-        width: 100%;
-        height: 100%;
         text-align: center;
     }
 
@@ -117,91 +162,115 @@ require_once __DIR__ . '/../includes/header.php';
         max-width: 100%;
         max-height: 400px;
         object-fit: contain;
-        display: inline-block;
-        /* No transitions here for static feel */
     }
 
-    /* 3. Typography & UI Components */
+    .no-image-placeholder {
+        text-align: center;
+        color: #888;
+    }
+
+    .no-image-placeholder .icon {
+        font-size: 60px;
+    }
+
     .category-pill {
         background: #e7f1ff;
         color: #0d6efd;
-        padding: 5px 12px;
-        border-radius: 4px;
-        font-size: 0.75rem;
+        padding: 6px 14px;
+        border-radius: 5px;
+        font-size: 12px;
         font-weight: 700;
-        text-transform: uppercase;
-        width: fit-content;
+        display: inline-block;
+        margin-bottom: 10px;
     }
 
     .product-title {
-        font-size: 2.25rem;
-        color: #1a1a1a;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 10px 0;
+    }
+
+    .price-box {
+        margin: 20px 0;
+    }
+
+    .price-label {
+        display: block;
+        font-size: 12px;
+        color: #888;
+        font-weight: 600;
+    }
+
+    .price-value {
+        font-size: 28px;
+        color: #198754;
         font-weight: 700;
     }
 
+    .admin-controls-box {
+        margin-top: 30px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+    }
+
+    .admin-label {
+        font-size: 12px;
+        font-weight: 700;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-static {
+        padding: 12px 20px;
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 6px;
+    }
+
+    .btn-static-dark {
+        background: #212529;
+        color: #fff;
+    }
+
+    .btn-static-danger {
+        border: 1px solid #dc3545;
+        color: #dc3545;
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 15px;
+        font-size: 14px;
+        color: #777;
+        text-decoration: none;
+    }
+
     .description-card {
-        border-radius: 12px;
+        margin-top: 30px;
+        padding: 30px;
         border: 1px solid #eee;
+        border-radius: 12px;
     }
 
     .description-text {
         line-height: 1.7;
-        font-size: 1.05rem;
+        color: #555;
     }
 
-    /* 4. TOTAL STATIC BUTTONS (Optimized CSS) */
-    .btn-static {
-        padding: 14px 24px;
-        font-weight: 700;
-        text-align: center;
-        text-decoration: none !important;
-        display: inline-block;
-        border-radius: 6px;
-        transition: none !important;
-        box-shadow: none !important;
-        border: 1px solid transparent;
-    }
+    @media (max-width:768px) {
 
-    /* Dark Button */
-    .btn-static-dark {
-        background-color: #212529 !important;
-        color: #fff !important;
-    }
+        .product-grid {
+            flex-direction: column;
+        }
 
-    .btn-static-dark:hover,
-    .btn-static-dark:active {
-        background-color: #212529 !important;
-        color: #fff !important;
-        transform: none !important;
-    }
-
-    /* Danger Button */
-    .btn-static-danger {
-        background-color: transparent !important;
-        color: #dc3545 !important;
-        border: 1px solid #dc3545 !important;
-    }
-
-    .btn-static-danger:hover,
-    .btn-static-danger:active {
-        background-color: transparent !important;
-        color: #dc3545 !important;
-    }
-
-    /* 5. Responsiveness */
-    @media (max-width: 768px) {
         .product-title {
-            font-size: 1.75rem;
+            font-size: 24px;
         }
 
-        .bg-image-container {
-            min-height: 300px;
-        }
-
-        .product-image-managed {
-            max-height: 300px;
-        }
     }
 </style>
-
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>

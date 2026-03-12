@@ -216,7 +216,7 @@ $totalPayable = $product['price'] + $taxAmount;
     .section-subtitle {
         color: var(--text-muted);
         margin-bottom: 40px;
-        font-size: 18px;
+        font-size: 1.25rem;
     }
 
     .gateway-list {
@@ -266,7 +266,7 @@ $totalPayable = $product['price'] + $taxAmount;
     }
 
     .gateway-desc {
-        font-size: 18px;
+        font-size: 1rem;
         color: var(--text-muted);
     }
 
@@ -327,7 +327,7 @@ $totalPayable = $product['price'] + $taxAmount;
     }
 
     .item-qty {
-        font-size: 16px;
+        font-size: 0.875rem;
         color: var(--text-muted);
     }
 
@@ -340,7 +340,7 @@ $totalPayable = $product['price'] + $taxAmount;
     .bill-row {
         display: flex;
         justify-content: space-between;
-        font-size: 18px;
+        font-size: 22px;
         color: var(--text-muted);
     }
 
@@ -377,9 +377,9 @@ $totalPayable = $product['price'] + $taxAmount;
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        color: var(--text-muted);
+        color: black;
         text-decoration: none;
-        font-size: 18px;
+        font-size: 24px;
         font-weight: 500;
     }
 

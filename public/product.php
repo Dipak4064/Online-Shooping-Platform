@@ -1,23 +1,3 @@
-</style>
-<style>
-    #toggleDescriptionBtn.btn-secondary {
-        border: none !important;
-        padding: 0.5em 1.2em !important;
-        border-radius: 6px !important;
-        background: #f3f4f6 !important;
-        color: #232f3e !important;
-        font-weight: 600;
-        font-size: 1rem;
-        box-shadow: none !important;
-        margin-bottom: 18px;
-        transition: background 0.2s;
-    }
-
-    #toggleDescriptionBtn.btn-secondary:hover {
-        background: #e5e7eb !important;
-        color: #000 !important;
-    }
-</style>
 <?php
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/header.php';
@@ -148,6 +128,7 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         padding: 40px;
         box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         margin-bottom: 60px;
+        margin-top:60px;
         border: 1px solid #f0f0f0;
     }
 
@@ -243,18 +224,22 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
+
     .related-image {
-        height: 150px;
+        background: #f5f5f5;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 10px;
+        min-height: 200px;
+        overflow: hidden;
     }
 
     .related-image img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     .related-title {
@@ -273,9 +258,25 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
             grid-template-columns: 1fr;
         }
     }
-</style>
 
-<style>
+    #toggleDescriptionBtn.btn-secondary {
+        border: none !important;
+        padding: 0.5em 1.2em !important;
+        border-radius: 6px !important;
+        background: #f3f4f6 !important;
+        color: #232f3e !important;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: none !important;
+        margin-bottom: 18px;
+        transition: background 0.2s;
+    }
+
+    #toggleDescriptionBtn.btn-secondary:hover {
+        background: #e5e7eb !important;
+        color: #000 !important;
+    }
+
     .product-action-row {
         display: flex;
         justify-content: space-between;
@@ -283,14 +284,10 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         margin-bottom: 18px;
         gap: 18px;
     }
-</style>
 
-<style>
-    /* Scoped override for product description on this page only */
     #productDescription {
         background: none !important;
         padding: 0 !important;
     }
 </style>
-
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

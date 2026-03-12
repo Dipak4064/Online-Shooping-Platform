@@ -13,23 +13,19 @@ if (!$order_id) {
 
 $pdo = get_db_connection();
 
-// Fetch order details
 $stmt = $pdo->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ? LIMIT 1");
 $stmt->execute([$order_id, $user['id']]);
 $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// If order doesn't exist, redirect
 if (!$order) {
     header("Location: orders.php");
     exit;
 }
 
-// Fetch product details based on product_id from the order
 $stmtt = $pdo->prepare("SELECT * FROM posts WHERE id = ? LIMIT 1");
 $stmtt->execute([$order['product_id'] ?? 0]);
 $product = $stmtt->fetch(PDO::FETCH_ASSOC);
 
-// Image Path Logic: Use product image, or a placeholder if empty
 $imagePath = (!empty($product['image_path'])) ? $product['image_path'] : 'assets/images/placeholder-luxury.jpg';
 ?>
 
@@ -137,10 +133,6 @@ $imagePath = (!empty($product['image_path'])) ? $product['image_path'] : 'assets
 </div>
 
 <style>
-    /* PREMIUM DESIGN SYSTEM 
-Palette: Slate 900, Indigo 600, Rose 500, White 
-*/
-
     .premium-scope {
         background: #fdfdfd;
         background-image: radial-gradient(#e5e7eb 0.5px, transparent 0.5px);
@@ -171,7 +163,7 @@ Palette: Slate 900, Indigo 600, Rose 500, White
         gap: 10px;
         text-decoration: none;
         color: #64748b;
-        font-size: 14px;
+        font-size: 22px;
         font-weight: 500;
         transition: color 0.3s;
     }
@@ -187,7 +179,7 @@ Palette: Slate 900, Indigo 600, Rose 500, White
         gap: 8px;
         padding: 6px 16px;
         border-radius: 100px;
-        font-size: 11px;
+        font-size: 15px;
         font-weight: 700;
         letter-spacing: 0.05em;
         background: #fff;
@@ -246,7 +238,7 @@ Palette: Slate 900, Indigo 600, Rose 500, White
     .order-id-sub {
         margin: 8px 0 0;
         color: #64748b;
-        font-size: 15px;
+        font-size: 20px;
     }
 
     .mono {
@@ -319,7 +311,7 @@ Palette: Slate 900, Indigo 600, Rose 500, White
     }
 
     .category-tag {
-        font-size: 10px;
+        font-size: 16px;
         font-weight: 800;
         text-transform: uppercase;
         color: #6366f1;
@@ -337,7 +329,7 @@ Palette: Slate 900, Indigo 600, Rose 500, White
 
     .product-meta {
         margin: 6px 0 0;
-        font-size: 13px;
+        font-size: 15px;
         color: #94a3b8;
     }
 
@@ -368,7 +360,7 @@ Palette: Slate 900, Indigo 600, Rose 500, White
     }
 
     .mini-label {
-        font-size: 11px;
+        font-size: 14px;
         font-weight: 700;
         text-transform: uppercase;
         color: #94a3b8;
@@ -412,7 +404,7 @@ Palette: Slate 900, Indigo 600, Rose 500, White
         display: flex;
         justify-content: space-between;
         margin-bottom: 15px;
-        font-size: 15px;
+        font-size: 18px;
         color: #64748b;
     }
 
@@ -471,6 +463,13 @@ Palette: Slate 900, Indigo 600, Rose 500, White
     }
 
     @media print {
+
+        header,
+        nav,
+        footer {
+            display: none !important;
+        }
+
         .premium-scope {
             padding: 0;
             background: #fff;
@@ -491,6 +490,7 @@ Palette: Slate 900, Indigo 600, Rose 500, White
             background: #fff;
             border-top: 1px solid #eee;
         }
+
     }
 </style>
 

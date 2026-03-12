@@ -872,15 +872,71 @@ function get_full_store_profile(int $userId): ?array
         return null;
     }
 
-    $stmtProducts = $db->prepare('SELECT * FROM posts WHERE user_id = ? AND deleted_at IS NULL ORDER BY created_at DESC');
+    $stmtProducts = $db->prepare('
+        SELECT p.*,
+               COUNT(o.id) AS order_count
+        FROM posts p
+        LEFT JOIN orders o ON o.product_id = p.id
+        WHERE p.user_id = ? AND p.deleted_at IS NULL
+        GROUP BY p.id
+        ORDER BY p.created_at DESC
+    ');
     $stmtProducts->execute([$userId]);
     $products = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($products as &$product) {
+        $stmtOrders = $db->prepare('
+            SELECT o.*, u.name AS customer_name
+            FROM orders o
+            JOIN users u ON u.id = o.user_id
+            WHERE o.product_id = ?
+            ORDER BY o.created_at DESC
+        ');
+        $stmtOrders->execute([$product['id']]);
+        $product['orders'] = $stmtOrders->fetchAll(PDO::FETCH_ASSOC);
+    }
+    unset($product);
 
     return [
         'details' => $store,
         'products' => $products,
         'count' => count($products)
     ];
+}
+
+
+function get_orders_of_store(int $storeId): array
+{
+    $pdo = get_db_connection();
+
+    $stmt = $pdo->prepare('
+        SELECT 
+            o.*, 
+            u.name AS customer_name,
+            p.title AS product_title  -- add this
+        FROM orders o
+        JOIN users u ON u.id = o.user_id
+        JOIN posts p ON p.id = o.product_id
+        WHERE p.user_id = ?  
+        ORDER BY o.created_at DESC
+    ');
+
+    $stmt->execute([$storeId]);
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $orders;
+}
+
+function sending_product(int $orderId): bool
+{
+    $pdo = get_db_connection();
+    $stmt = $pdo->prepare("
+    UPDATE orders 
+    SET message = 'You will get your product in a few hours.', 
+        status = 'Delivering' 
+    WHERE id = ?
+");
+    return $stmt->execute([$orderId]);
 }
 
 function create_store(int $userId, array $data): int

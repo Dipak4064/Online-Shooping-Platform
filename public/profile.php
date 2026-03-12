@@ -144,7 +144,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <p class="empty-state">No orders yet. <a href="<?php echo BASE_URL; ?>products.php">Start shopping!</a></p>
             <?php else: ?>
                 <div class="recent-orders">
-                    <?php foreach (array_slice($orders, 0, 5) as $order): ?>
+                    <?php foreach (array_slice($orders, 0, 3) as $order): ?>
                         <div class="order-item">
                             <div class="order-details">
                                 <strong><?php echo $products['title']; ?></strong>

@@ -331,7 +331,7 @@ $cartCount = array_sum(array_column($cartItems, 'quantity'));
             gap: 0.375rem;
             padding: 0.625rem 1rem;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: #4a5568;
             border-radius: 8px;
             text-decoration: none;

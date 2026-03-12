@@ -121,7 +121,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     /* Breadcrumb */
     .collection-breadcrumb {
         padding: 1rem 2rem;
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         color: #888;
     }
 
@@ -232,7 +232,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     .product-title {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
         font-weight: 600;
         margin: 0;
     }
@@ -243,7 +243,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     .product-description {
-        font-size: 0.8rem;
+        font-size: 0.95rem;
         color: #718096;
         margin: 0;
         line-height: 1.3;
@@ -277,6 +277,17 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         color: #1a73e8;
         text-decoration: none;
         font-weight: 600;
+    }
+
+    .collection-label {
+        display: inline-block;
+        background: #2d5e9f;
+        color: #fff;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
     }
 
     /* Responsive */
