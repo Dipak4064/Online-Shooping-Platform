@@ -82,7 +82,6 @@ if ($curlError) {
 $data = json_decode($response, true);
 
 if ($httpCode === 200 && !empty($data['payment_url'])) {
-    // Redirect user to Khalti payment page
     header('Location: ' . $data['payment_url']);
     exit;
 }

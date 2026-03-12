@@ -73,7 +73,7 @@ if ($purchaseOrderId && str_starts_with($purchaseOrderId, 'ORDER-')) {
         $stmt->execute(['paid', $transactionCode, $orderId]);
         ensure_tracking_code($orderId);
         clear_cart();
-        header('Location: order_success.php?order_id=' . $orderId);
+        header('Location: /order_success.php?order_id=' . $orderId);
         exit;
     }
 
@@ -95,14 +95,14 @@ if ($purchaseOrderId && str_starts_with($purchaseOrderId, 'KHALTI-')) {
             'product_code' => '',
         ];
         $encodedData = base64_encode(json_encode($successData));
-        header('Location: ../payment/success.php?data=' . $encodedData);
+        header('Location: /payment/success.php?data=' . $encodedData);
         exit;
     }
 
     $stmt = $pdo->prepare("UPDATE transaction SET status = ? WHERE uuid_id = ?");
     $stmt->execute(['failed', $purchaseOrderId]);
 
-    header('Location: ../payment/failure.php?msg=verification_failed');
+    header('Location: /payment/failure.php?msg=verification_failed');
     exit;
 }
 
