@@ -52,8 +52,11 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="product-block">
 
         <div class="product-image-block">
-            <img src="<?php echo htmlspecialchars(str_replace('/public', '', $product['image_path'])); ?>"
+            <!-- <img src="<?php echo htmlspecialchars(str_replace('/public', '', $product['image_path'])); ?>"
+                alt="<?php echo htmlspecialchars($product['title']); ?>"> -->
+            <img src="<?php echo htmlspecialchars($product['image_path']); ?>"
                 alt="<?php echo htmlspecialchars($product['title']); ?>">
+
         </div>
 
         <div class="product-details-block">
@@ -108,7 +111,10 @@ $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="related-card">
                         <a href="product.php?id=<?= $item['id'] ?>" class="card-link">
                             <div class="related-image">
-                                <img src="<?php echo htmlspecialchars(str_replace('/public', '', $item['image_path'])); ?>"
+                                <!-- <img src="<?php echo htmlspecialchars(str_replace('/public', '', $item['image_path'])); ?>"
+                                    alt="<?php echo htmlspecialchars($item['title']); ?>"> -->
+
+                                <img src="<?php echo htmlspecialchars($item['image_path']); ?>"
                                     alt="<?php echo htmlspecialchars($item['title']); ?>">
                             </div>
                             <h6 class="related-title"><?= htmlspecialchars($item['title']) ?></h6>

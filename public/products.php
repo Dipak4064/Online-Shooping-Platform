@@ -23,83 +23,85 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<div class="container">
+    <section class="collection-hero">
+        <div class="collection-hero-content">
+            <span class="collection-label">🛍️ Collections</span>
+            <h1>Explore Our Products</h1>
+            <p>Find the best items for your needs. Quality and variety guaranteed.</p>
+        </div>
+    </section>
 
-<section class="collection-hero">
-    <div class="collection-hero-content">
-        <span class="collection-label">🛍️ Collections</span>
-        <h1>Explore Our Products</h1>
-        <p>Find the best items for your needs. Quality and variety guaranteed.</p>
-    </div>
-</section>
-
-<div class="collection-container">
-    <div class="search-bar-section">
-        <form method="get" class="inline-search-form">
-            <div class="filter-search">
-                <input type="text" name="search" placeholder="Search products by title..."
-                    value="<?php echo htmlspecialchars($search); ?>">
-            </div>
-            <button type="submit" class="apply-filters-btn">
-                Search
-            </button>
-        </form>
-    </div>
-
-    <main class="collection-main">
-        <div class="collection-header">
-            <h2>
-                <?php echo !empty($search) ? "Results for '" . htmlspecialchars($search) . "'" : "All Products"; ?>
-            </h2>
-            <span class="product-count">
-                <?php echo count($products); ?> Products
-            </span>
+    <div class="collection-container">
+        <div class="search-bar-section">
+            <form method="get" class="inline-search-form">
+                <div class="filter-search">
+                    <input type="text" name="search" placeholder="Search products by title..."
+                        value="<?php echo htmlspecialchars($search); ?>">
+                </div>
+                <button type="submit" class="apply-filters-btn">
+                    Search
+                </button>
+            </form>
         </div>
 
-        <?php if (count($products) > 0): ?>
-            <div class="collection-grid">
-                <?php foreach ($products as $product): ?>
-                    <div class="collection-product-card">
+        <main class="collection-main">
+            <div class="collection-header">
+                <h2>
+                    <?php echo !empty($search) ? "Results for '" . htmlspecialchars($search) . "'" : "All Products"; ?>
+                </h2>
+                <span class="product-count">
+                    <?php echo count($products); ?> Products
+                </span>
+            </div>
 
-                        <a href="<?php echo BASE_URL; ?>product.php?id=<?php echo $product['id']; ?>"
-                            class="product-image-link">
-                            <div class="product-image-wrapper">
-                                <img src="<?php echo htmlspecialchars(str_replace('/public', '', $product['image_path'])); ?>"
-                                    alt="<?php echo htmlspecialchars($product['title']); ?>">
-                            </div>
-                        </a>
+            <?php if (count($products) > 0): ?>
+                <div class="collection-grid">
+                    <?php foreach ($products as $product): ?>
+                        <div class="collection-product-card">
 
-                        <div class="product-details">
-                            <h3 class="product-title">
-                                <a href="<?php echo BASE_URL; ?>product.php?id=<?php echo $product['id']; ?>">
-                                    <?php echo htmlspecialchars($product['title']); ?>
-                                </a>
-                            </h3>
+                            <a href="<?php echo BASE_URL; ?>product.php?id=<?php echo $product['id']; ?>"
+                                class="product-image-link">
+                                <div class="product-image-wrapper">
+                                    <!-- <img src="<?php echo htmlspecialchars(str_replace('/public', '', $product['image_path'])); ?>"
+                                    alt="<?php echo htmlspecialchars($product['title']); ?>"> -->
+                                    <img src="<?php echo htmlspecialchars($product['image_path']); ?>"
+                                        alt="<?php echo htmlspecialchars($product['title']); ?>">
+                                </div>
+                            </a>
 
-                            <p class="product-description">
-                                <?php echo htmlspecialchars(substr($product['body'], 0, 90)); ?>...
-                            </p>
+                            <div class="product-details">
+                                <h3 class="product-title">
+                                    <a href="<?php echo BASE_URL; ?>product.php?id=<?php echo $product['id']; ?>">
+                                        <?php echo htmlspecialchars($product['title']); ?>
+                                    </a>
+                                </h3>
 
-                            <div class="product-footer">
-                                <span class="product-price">
-                                    Rs. <?php echo number_format($product['price'], 0); ?>
-                                </span>
+                                <p class="product-description">
+                                    <?php echo htmlspecialchars(substr($product['body'], 0, 90)); ?>...
+                                </p>
+
+                                <div class="product-footer">
+                                    <span class="product-price">
+                                        Rs. <?php echo number_format($product['price'], 0); ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <div class="no-products">
-                <div class="no-products-content">
-                    <h3>No products found</h3>
-                    <p>We couldn't find anything matching "<?php echo htmlspecialchars($search); ?>".</p>
-                    <a href="products.php" class="clear-search-link">View All Products</a>
+                    <?php endforeach; ?>
                 </div>
-            </div>
-        <?php endif; ?>
-    </main>
+            <?php else: ?>
+                <div class="no-products">
+                    <div class="no-products-content">
+                        <h3>No products found</h3>
+                        <p>We couldn't find anything matching "<?php echo htmlspecialchars($search); ?>".</p>
+                        <a href="products.php" class="clear-search-link">View All Products</a>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </main>
+    </div>
 </div>
-
 <style>
     /* Hero */
     .collection-hero {
