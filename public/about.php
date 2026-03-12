@@ -182,8 +182,8 @@ require_once __DIR__ . '/../includes/header.php';
 
 <style>
     /* =========================================
-   About Page Styles (Light Theme)
-   ========================================= */
+       About Page Styles (Light Theme)
+    ========================================= */
 
     /* About Hero Light */
     .about-hero-light {

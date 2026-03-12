@@ -51,7 +51,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
     <?php endif; ?>
 
-    
+
     <section class="my-store-content">
         <div class="container">
             <div class="store-stats">
@@ -208,6 +208,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <th>Price</th>
                         <th class="text-center">From</th>
                         <th class="text-center">Order Date</th>
+                        <th class="text-center">Status</th>
                         <th class="text-center">Send Order</th>
                     </tr>
                 </thead>
@@ -221,6 +222,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <td>Rs. <?php echo number_format($order['total_amount'], 2); ?></td>
                                 <td><?php echo htmlspecialchars($order['b_name']); ?></td>
                                 <td><?php echo htmlspecialchars($order['created_at']); ?></td>
+                                <td><?php echo htmlspecialchars($order['status']); ?></td>
 
                                 <td class="text-center">
                                     <button onclick="sending_product(<?php echo $order['id'] ?>)">
