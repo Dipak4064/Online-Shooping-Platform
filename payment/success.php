@@ -26,11 +26,9 @@ $p_id = $txn['product_id'] ?? 0;
 if ($status === 'COMPLETE') {
     $verified = false;
 
-    // Skip eSewa verification for Khalti (already verified in khalti_success.php)
     if ($payment_method === 'Khalti') {
         $verified = true;
     } else {
-        // eSewa verification
         $baseUrl = "https://rc.esewa.com.np/api/epay/transaction/status/";
         $fullUrl = $baseUrl . "?product_code=" . urlencode($product_code) . "&transaction_uuid=" . urlencode($transaction_uuid) . "&total_amount=" . urlencode($amount);
 
@@ -84,114 +82,104 @@ if ($status === 'COMPLETE') {
 $current_date = date('F d, Y');
 $current_time = date('h:i A');
 ?>
+<link rel="stylesheet" href="/public/css/style.css">
+<div class="container">
+    <div class="success-wrapper">
+        <div class="success-container">
 
-<div class="success-wrapper">
-    <div class="success-container">
-
-        <div class="checkmark-wrapper">
-            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
-                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-            </svg>
-        </div>
-
-        <div class="success-content">
-            <h1 class="success-title">Payment Successful!</h1>
-            <p class="success-subtitle">Your transaction has been completed successfully</p>
-
-            <!-- Payment Badge -->
-            <div class="payment-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            <div class="checkmark-wrapper">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                 </svg>
-                <span>Verified Payment</span>
-            </div>
-        </div>
-
-        <div class="details-card">
-            <div class="card-header">
-                <h3>Transaction Details</h3>
-                <span class="status-badge">Completed</span>
             </div>
 
-            <div class="details-grid">
-                <div class="detail-item">
-                    <span class="detail-label">Transaction ID</span>
-                    <span class="detail-value"><?= htmlspecialchars($transaction_id) ?></span>
-                </div>
+            <div class="success-content">
+                <h1 class="success-title">Payment Successful!</h1>
+                <p class="success-subtitle">Your transaction has been completed successfully</p>
 
-                <div class="detail-item">
-                    <span class="detail-label">Amount Paid</span>
-                    <span class="detail-value amount">Rs. <?= number_format($amount, 2) ?></span>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">Payment Method</span>
-                    <span class="detail-value"><?= htmlspecialchars($payment_method) ?></span>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">Date</span>
-                    <span class="detail-value"><?= $current_date ?></span>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">Time</span>
-                    <span class="detail-value"><?= $current_time ?></span>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">Transaction UUID</span>
-                    <span class="detail-value uuid"><?= htmlspecialchars($transaction_uuid) ?></span>
+                <div class="payment-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>Verified Payment</span>
                 </div>
             </div>
+
+            <div class="details-card">
+                <div class="card-header">
+                    <h3>Transaction Details</h3>
+                    <span class="status-badge">Completed</span>
+                </div>
+
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Transaction ID</span>
+                        <span class="detail-value"><?= htmlspecialchars($transaction_id) ?></span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Amount Paid</span>
+                        <span class="detail-value amount">Rs. <?= number_format($amount, 2) ?></span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Payment Method</span>
+                        <span class="detail-value"><?= htmlspecialchars($payment_method) ?></span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Date</span>
+                        <span class="detail-value"><?= $current_date ?></span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Time</span>
+                        <span class="detail-value"><?= $current_time ?></span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Transaction UUID</span>
+                        <span class="detail-value uuid"><?= htmlspecialchars($transaction_uuid) ?></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-section">
+                <a href="/public/index.php" class="btn-primary">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Back to Home
+                </a>
+
+                <button onclick="window.print()" class="btn-secondary">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Print Receipt
+                </button>
+            </div>
+
+            <div class="info-footer">
+                <p>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    A confirmation email has been sent to your registered email address
+                </p>
+            </div>
+
         </div>
-
-        <div class="action-section">
-            <a href="/public/index.php" class="btn-primary">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                Back to Home
-            </a>
-
-            <button onclick="window.print()" class="btn-secondary">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
-                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-                    <rect x="6" y="14" width="12" height="8"></rect>
-                </svg>
-                Print Receipt
-            </button>
-        </div>
-
-        <div class="info-footer">
-            <p>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-                A confirmation email has been sent to your registered email address
-            </p>
-        </div>
-
     </div>
 </div>
-
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-
     .success-wrapper {
         min-height: 100vh;
         display: flex;
@@ -246,8 +234,6 @@ $current_time = date('h:i A');
         }
     }
 
-    /* Animated Checkmark */
-    /* Container to center the icon */
     .checkmark-wrapper {
         width: 100px;
         height: 100px;
@@ -261,7 +247,6 @@ $current_time = date('h:i A');
         display: block;
         stroke-width: 3;
         stroke: #059669;
-        /* Success Green */
         stroke-miterlimit: 10;
         box-shadow: inset 0 0 0 #059669;
         animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
@@ -305,14 +290,11 @@ $current_time = date('h:i A');
     @keyframes fill {
         100% {
             box-shadow: inset 0 0 0 50px #059669;
-            /* Fills the background green */
         }
     }
 
-    /* Change checkmark color to white once background is filled */
     .checkmark__check {
         stroke: #059669;
-        /* Initial color */
         transition: stroke 0.3s;
     }
 
@@ -320,19 +302,16 @@ $current_time = date('h:i A');
         animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
     }
 
-    /* Make the check white after the green fill */
     @keyframes fill {
         100% {
             box-shadow: inset 0 0 0 50px #059669;
         }
     }
 
-    /* Ensure the check becomes white so it's visible against green */
     .checkmark__check {
         stroke: #059669;
     }
 
-    /* This specific rule ensures the check turns white at the end of the animation */
     .checkmark.scale .checkmark__check,
     .checkmark {
         animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards,
@@ -474,7 +453,6 @@ $current_time = date('h:i A');
         }
     }
 
-    /* Success Content */
     .success-content {
         text-align: center;
         margin-bottom: 35px;
@@ -506,7 +484,6 @@ $current_time = date('h:i A');
         border: 2px solid #059669;
     }
 
-    /* Details Card */
     .details-card {
         background: #f8fafc;
         border-radius: 20px;
@@ -579,7 +556,6 @@ $current_time = date('h:i A');
         font-family: 'Courier New', monospace;
     }
 
-    /* Action Buttons */
     .action-section {
         display: flex;
         gap: 15px;
@@ -625,7 +601,6 @@ $current_time = date('h:i A');
         border-color: #d1d5db;
     }
 
-    /* Info Footer */
     .info-footer {
         text-align: center;
     }
@@ -641,7 +616,6 @@ $current_time = date('h:i A');
         border-radius: 10px;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
         .success-wrapper {
             padding: 20px 15px;
@@ -677,8 +651,6 @@ $current_time = date('h:i A');
         }
     }
 
-    /* Print Styles */
-    /* Updated Print Styles */
     @media print {
         body {
             background: white !important;
@@ -700,15 +672,12 @@ $current_time = date('h:i A');
             padding: 20px;
         }
 
-        /* Force the grid to stay in 2 columns for the receipt */
         .details-grid {
             display: grid !important;
             grid-template-columns: 1fr 1fr !important;
-            /* Forces two columns */
             gap: 20px !important;
         }
 
-        /* Hide buttons and unnecessary UI elements */
         .action-section,
         .info-footer,
         .success-wrapper::before,
@@ -718,7 +687,6 @@ $current_time = date('h:i A');
             display: none !important;
         }
 
-        /* Ensure the amount color and bold text show up */
         .detail-value.amount {
             color: #059669 !important;
             -webkit-print-color-adjust: exact;

@@ -13,7 +13,7 @@ $cartCount = array_sum(array_column($cartItems, 'quantity'));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo APP_NAME; ?></title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
     <link rel="icon" type="image/x-icon" href="/includes/golden_favicon.ico">
     <script defer src="<?php echo SITE_URL; ?>js/app.js"></script>
 </head>
@@ -44,7 +44,7 @@ $cartCount = array_sum(array_column($cartItems, 'quantity'));
                             <span class="dropdown-icon">👤</span>
                             <span>My Profile</span>
                         </a>
-                        <a href="<?php echo SITE_URL; ?>orders.php" class="dropdown-item">
+                        <a href="<?php echo SITE_URL; ?>orders.php" class="dropdown-item">`
                             <span class="dropdown-icon">📦</span>
                             <span>My Orders</span>
                         </a>

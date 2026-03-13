@@ -884,7 +884,7 @@ require_once __DIR__ . '/../includes/footer.php';
 
     .products-grid .btn-buy-now {
         padding: 8px 16px;
-        background: #1f2937;
+        background: #919dad;
         color: white;
         border: none;
         border-radius: 4px;

@@ -103,7 +103,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 <style>
-    /* Hero */
     .collection-hero {
         background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
         padding: 2rem 1rem;
