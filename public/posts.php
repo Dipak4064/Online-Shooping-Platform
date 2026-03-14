@@ -20,9 +20,6 @@ if (isset($_GET['status'])) {
     }
 }
 ?>
-<pre>
-    <?php print_r($posts); ?>
-</pre>
 <div class="posts-page-wrapper">
     <div class="container">
         <section class="posts-header-modern">
@@ -90,7 +87,8 @@ if (isset($_GET['status'])) {
                             <div class="post-footer">
                                 <div class="author-info">
                                     <div class="author-avatar">
-                                        <?php echo strtoupper(substr($post['author_name'] ?? 'A', 0, 1)); ?></div>
+                                        <?php echo strtoupper(substr($post['author_name'] ?? 'A', 0, 1)); ?>
+                                    </div>
                                     <div class="author-meta">
                                         <span
                                             class="name"><?php echo htmlspecialchars($post['author_name'] ?? 'Anonymous'); ?></span>
