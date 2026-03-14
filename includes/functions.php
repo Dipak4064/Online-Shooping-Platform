@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/db.php';
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -265,7 +264,7 @@ function register_user(array $data): bool
         return false;
     }
 
-    $hash = password_hash($data['password'], PASSWORD_ALGO);
+    $hash = password_hash($data['password'], PASSWORD_DEFAULT);
 
     $stmt = $pdo->prepare('INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)');
     return $stmt->execute([
@@ -274,6 +273,20 @@ function register_user(array $data): bool
         $hash,
         $data['role'] ?? 'customer',
     ]);
+}
+
+function admin_delete_customer(int $id): bool
+{
+    $pdo = get_db_connection();
+    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ? AND role = 'customer' LIMIT 1");
+    return $stmt->execute([$id]);
+}
+
+function admin_update_customer(int $id, string $name, string $email): bool
+{
+    $pdo = get_db_connection();
+    $stmt = $pdo->prepare("UPDATE users SET name = ?, email = ? WHERE id = ? AND role = 'customer'");
+    return $stmt->execute([$name, $email, $id]);
 }
 
 function authenticate_user(string $email, string $password): ?array
@@ -657,8 +670,8 @@ function upload_public_image(array $file, string $folder): array
 function admin_get_products(): array
 {
     $pdo = get_db_connection();
-    $stmt = $pdo->query('SELECT p.*, c.name AS category_name FROM products p JOIN categories c ON c.id = p.category_id ORDER BY p.created_at DESC');
-    return $stmt->fetchAll();
+    $stmt = $pdo->query('SELECT * FROM posts WHERE deleted_at IS NULL ORDER BY created_at DESC');
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function admin_create_product(array $data): bool
@@ -816,9 +829,27 @@ function update_user_profile(int $userId, array $data): bool
 
 function get_posts(): array
 {
-    $pdo = get_db_connection();
-    $stmt = $pdo->query('SELECT p.*, u.name AS author_name FROM posts p JOIN users u ON u.id = p.user_id ORDER BY p.created_at DESC');
-    return $stmt->fetchAll();
+    try {
+        $pdo = get_db_connection();
+
+        $sql = "SELECT 
+                    p.id, 
+                    p.name AS title, 
+                    p.description AS body, 
+                    p.thumbnail AS image_path, 
+                    p.user_id, 
+                    p.created_at, 
+                    COALESCE(u.name, 'Store Member') AS author_name 
+                FROM products p 
+                LEFT JOIN users u ON u.id = p.user_id 
+                WHERE p.is_active = 1
+                ORDER BY p.created_at DESC";
+
+        $stmt = $pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        return [];
+    }
 }
 
 function get_post_by_id(int $postId): ?array
@@ -939,57 +970,6 @@ function sending_product(int $orderId): bool
     return $stmt->execute([$orderId]);
 }
 
-function create_store(int $userId, array $data): int
-{
-    $pdo = get_db_connection();
-
-    try {
-        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $data['name'])));
-        $slug = trim($slug, '-');
-
-        if (empty($slug)) {
-            $slug = 'store-' . time();
-        }
-
-        $stmt = $pdo->prepare('SELECT id FROM stores WHERE slug = ? LIMIT 1');
-        $stmt->execute([$slug]);
-        if ($stmt->fetch()) {
-            $slug = $slug . '-' . time();
-        }
-
-        $stmt = $pdo->prepare('SELECT id FROM stores WHERE user_id = ? LIMIT 1');
-        $stmt->execute([$userId]);
-        if ($stmt->fetch()) {
-            return 0;
-        }
-
-        $stmt = $pdo->prepare('INSERT INTO stores (user_id, name, slug, description, logo, address, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
-        $result = $stmt->execute([
-            $userId,
-            $data['name'],
-            $slug,
-            $data['description'] ?? null,
-            $data['logo'] ?? null,
-            $data['address'] ?? null,
-            $data['phone'] ?? null,
-            $data['email'] ?? null,
-        ]);
-
-        if (!$result) {
-            return 0;
-        }
-
-        $storeId = (int) $pdo->lastInsertId();
-        $stmt = $pdo->prepare('UPDATE users SET role = ? WHERE id = ?');
-        $stmt->execute(['store_owner', $userId]);
-
-        return $storeId;
-    } catch (Exception $e) {
-        error_log('Create store error: ' . $e->getMessage());
-        return 0;
-    }
-}
-
 function get_product_by_id(int $id): ?array
 {
     try {
@@ -1050,10 +1030,108 @@ function soft_delete_post(int $postId, int $userId): bool
         'user_id' => $userId
     ]);
 }
+
 function is_store_owner(): bool
 {
     $user = current_user();
     return $user && ($user['role'] ?? '') === 'store_owner';
+}
+
+function create_store(int $userId, array $data): int
+{
+    $pdo = get_db_connection();
+
+    try {
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $data['name'])));
+        $slug = trim($slug, '-');
+
+        if (empty($slug)) {
+            $slug = 'store-' . time();
+        }
+
+        $stmt = $pdo->prepare('SELECT id FROM stores WHERE slug = ? LIMIT 1');
+        $stmt->execute([$slug]);
+        if ($stmt->fetch()) {
+            $slug = $slug . '-' . time();
+        }
+
+        $stmt = $pdo->prepare('SELECT id FROM stores WHERE user_id = ? LIMIT 1');
+        $stmt->execute([$userId]);
+        if ($stmt->fetch()) {
+            return 0;
+        }
+
+        $stmt = $pdo->prepare('INSERT INTO stores (user_id, name, slug, description, logo, address, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+        $result = $stmt->execute([
+            $userId,
+            $data['name'],
+            $slug,
+            $data['description'] ?? null,
+            $data['logo'] ?? null,
+            $data['address'] ?? null,
+            $data['phone'] ?? null,
+            $data['email'] ?? null,
+        ]);
+
+        if (!$result) {
+            return 0;
+        }
+
+        $storeId = (int) $pdo->lastInsertId();
+        $stmt = $pdo->prepare('UPDATE users SET role = ? WHERE id = ?');
+        $stmt->execute(['store_owner', $userId]);
+
+        return $storeId;
+    } catch (Exception $e) {
+        error_log('Create store error: ' . $e->getMessage());
+        return 0;
+    }
+}
+function delete_store(int $storeId): bool
+{
+    $pdo = get_db_connection();
+
+    try {
+        $pdo->beginTransaction();
+
+        $stmt = $pdo->prepare('SELECT user_id FROM stores WHERE id = ?');
+        $stmt->execute([$storeId]);
+        $store = $stmt->fetch();
+
+        if ($store) {
+            $ownerId = $store['user_id'];
+
+            $stmt = $pdo->prepare('DELETE FROM stores WHERE id = ?');
+            $stmt->execute([$storeId]);
+
+            $stmt = $pdo->prepare('UPDATE users SET role = ? WHERE id = ?');
+            $stmt->execute(['customer', $ownerId]);
+        }
+
+        $pdo->commit();
+        return true;
+    } catch (Exception $e) {
+        if ($pdo->inTransaction())
+            $pdo->rollBack();
+        error_log("Delete store error: " . $e->getMessage());
+        return false;
+    }
+}
+
+function update_store($id, $data)
+{
+    $pdo = get_db_connection();
+    $stmt = $pdo->prepare("UPDATE stores SET name = ?, slug = ?, description = ?, logo = ?, address = ?, phone = ?, email = ? WHERE id = ?");
+    return $stmt->execute([
+        $data['name'],
+        $data['slug'],
+        $data['description'],
+        $data['logo'],
+        $data['address'],
+        $data['phone'],
+        $data['email'],
+        $id
+    ]);
 }
 
 function user_has_store(int $userId): bool

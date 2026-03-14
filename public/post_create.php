@@ -9,14 +9,12 @@ $price = '';
 $product_type = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. Capture and trim all inputs
     $title = trim($_POST['title'] ?? '');
     $body = trim($_POST['body'] ?? '');
     $price = trim($_POST['price'] ?? '');
     $product_type = $_POST['product_type'] ?? '';
     $fileProvided = !empty($_FILES['image']['name']);
 
-    // 2. Strict Empty Check for all fields
     if (empty($title)) {
         $error = 'Product Name is required.';
     } elseif (empty($price) || !is_numeric($price)) {
@@ -29,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Please upload a product image.';
     }
 
-    // 3. Process Upload only if no errors so far
     $imagePath = null;
     if (empty($error)) {
         $uploadResult = upload_public_image($_FILES['image'], 'posts');
@@ -40,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // 4. Final Insertion
     if (empty($error) && $imagePath) {
         $postId = create_post((int) current_user()['id'], [
             'title' => $title,
@@ -59,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $pdo = get_db_connection();
 $query = "SELECT name FROM categories ORDER BY name ASC";
-$stmt = $pdo->prepare(query: $query);
+$stmt = $pdo->prepare($query);
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -121,13 +117,16 @@ require_once __DIR__ . '/../includes/header.php';
                         <span class="upload-text">Click to upload image</span>
                         <span class="upload-hint">PNG, JPG up to 5MB</span>
                     </div>
-                    <input type="file" name="image" accept="image/*" required>
+                    <input type="file" name="image" id="imageInput" accept="image/*" required>
+                </div>
+                <div id="file-name-display"
+                    style="font-size: 1.1rem; color: #4f46e5; font-weight: 600; margin-top: 10px; text-align: center;">
                 </div>
             </div>
 
             <div class="form-actions">
                 <button type="submit" class="btn-submit">
-                    <span>🚀</span> Publish Product
+                    Post Product
                 </button>
                 <a href="my_store.php" class="btn-cancel">Cancel</a>
             </div>
@@ -138,122 +137,120 @@ require_once __DIR__ . '/../includes/header.php';
 <style>
     .create-product-page {
         min-height: 100vh;
-        padding: 40px 20px;
+        padding: 60px 20px;
         display: flex;
         align-items: center;
         justify-content: center;
+        background-color: #f8faff;
     }
 
     .create-container {
         width: 100%;
-        max-width: 580px;
+        max-width: 1000px;
         background: white;
-        border-radius: 20px;
-        padding: 50px;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        border-radius: 24px;
+        padding: 60px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        border: 1px solid #eee;
     }
 
     .create-header {
         text-align: center;
         margin-bottom: 40px;
+        border: 2px solid #e0e7ff;
+        padding: 20px;
+        border-radius: 15px;
     }
 
     .header-icon {
-        font-size: 48px;
-        margin-bottom: 16px;
+        font-size: 50px;
+        margin-bottom: 4px;
     }
 
     .create-header h1 {
-        font-size: 28px;
-        font-weight: 700;
+        font-size: 1.75rem;
+        font-weight: 800;
         color: #1a1a2e;
-        margin: 0 0 8px 0;
     }
 
     .create-header p {
-        color: #6b7280;
-        font-size: 16px;
-        margin: 0;
+        color: #64748b;
+        font-size: 1.25rem;
     }
 
     .error-alert {
         background: #fef2f2;
-        border: 1px solid #fecaca;
+        border: 2px solid #fecaca;
         color: #dc2626;
-        padding: 14px 20px;
-        border-radius: 12px;
-        margin-bottom: 24px;
+        padding: 18px 24px;
+        border-radius: 14px;
+        margin-bottom: 30px;
         display: flex;
         align-items: center;
-        gap: 10px;
-        font-size: 15px;
-    }
-
-    .error-icon {
-        font-size: 18px;
+        gap: 12px;
+        font-size: 1.2rem;
+        font-weight: 600;
     }
 
     .create-form {
         display: flex;
         flex-direction: column;
-        gap: 24px;
+        gap: 30px;
     }
 
     .form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        gap: 25px;
     }
 
     .form-group {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
     }
 
     .form-group label {
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 1.1rem;
+        font-weight: 700;
         color: #374151;
     }
 
     .form-group input,
     .form-group textarea,
     .form-group select {
-        padding: 14px 18px;
+        padding: 18px 22px;
         border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        font-size: 16px;
+        border-radius: 14px;
+        font-size: 1.2rem;
         color: #1f2937;
         background: #f9fafb;
         outline: none;
+        transition: all 0.2s;
     }
 
     .form-group input:focus,
     .form-group textarea:focus,
     .form-group select:focus {
-        border-color: #1f2937;
+        border-color: #000;
         background: white;
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-        color: #9ca3af;
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
     }
 
     .image-upload-area {
         position: relative;
-        border: 2px dashed #d1d5db;
-        border-radius: 12px;
-        padding: 40px 20px;
+        border: 3px dashed #cbd5e0;
+        border-radius: 16px;
+        padding: 50px 20px;
         text-align: center;
-        background: #f9fafb;
+        background: #fafafa;
         cursor: pointer;
+        transition: 0.2s;
     }
 
     .image-upload-area:hover {
-        border-color: #1f2937;
-        background: #f9fafb;
+        border-color: #000;
+        background: #f0f4f8;
     }
 
     .image-upload-area input[type="file"] {
@@ -270,78 +267,88 @@ require_once __DIR__ . '/../includes/header.php';
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
     }
 
     .upload-icon {
-        font-size: 36px;
+        font-size: 48px;
     }
 
     .upload-text {
-        font-size: 15px;
-        font-weight: 600;
-        color: #374151;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1f2937;
     }
 
     .upload-hint {
-        font-size: 13px;
-        color: #9ca3af;
+        font-size: 1.1rem;
+        color: #64748b;
     }
 
     .form-actions {
         display: flex;
         flex-direction: column;
-        gap: 14px;
-        margin-top: 10px;
+        gap: 15px;
+        margin-top: 20px;
     }
 
     .btn-submit {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        padding: 16px 24px;
-        background: #1f2937;
+        gap: 12px;
+        padding: 20px;
+        background: #000;
         color: white;
         border: none;
-        border-radius: 12px;
-        font-size: 17px;
-        font-weight: 600;
+        border-radius: 14px;
+        font-size: 1.4rem;
+        font-weight: 700;
         cursor: pointer;
+        transition: transform 0.1s;
     }
 
     .btn-submit:hover {
-        background: #3b82f6;
+        background: #2563eb;
+    }
+
+    .btn-submit:active {
+        transform: scale(0.98);
     }
 
     .btn-cancel {
         text-align: center;
-        padding: 14px;
-        color: #6b7280;
+        padding: 18px;
+        color: #4b5563;
         text-decoration: none;
-        font-size: 15px;
-        font-weight: 500;
-        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-radius: 14px;
+        background: #f3f4f6;
     }
 
     .btn-cancel:hover {
-        background: #f3f4f6;
-        color: #374151;
+        background: #e5e7eb;
     }
 
     @media (max-width: 640px) {
         .create-container {
-            padding: 30px 24px;
+            padding: 40px 20px;
         }
 
         .form-row {
             grid-template-columns: 1fr;
         }
-
-        .create-header h1 {
-            font-size: 24px;
-        }
     }
 </style>
+
+<script>
+    document.getElementById('imageInput').addEventListener('change', function (e) {
+        const fileName = e.target.files[0] ? e.target.files[0].name : "";
+        if (fileName) {
+            document.getElementById('file-name-display').textContent = "Selected: " + fileName;
+        }
+    });
+</script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

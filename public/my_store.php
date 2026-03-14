@@ -97,7 +97,7 @@ require_once __DIR__ . '/../includes/header.php';
             <div id="product-table-section" style="display: none; margin-bottom: 2rem;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="fw-bold">Product Inventory</h3>
-                    <button onclick="toggleOrderTable()" class="close-btn-simple">✕ Close</button>
+                    <button onclick="toggleProductTable()" class="close-btn-simple">✕ Close</button>
                 </div>
 
                 <table class="table table-striped table-bordered">

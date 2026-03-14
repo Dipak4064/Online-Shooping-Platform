@@ -48,7 +48,7 @@
                 <ul class="footer-links">
                     <li><a href="<?php echo SITE_URL; ?>index.php">Home</a></li>
                     <li><a href="<?php echo SITE_URL; ?>products.php">All Products</a></li>
-                    <li><a href="<?php echo SITE_URL; ?>posts.php">Marketplace</a></li>
+                    <!-- <li><a href="<?php echo SITE_URL; ?>posts.php">Marketplace</a></li> -->
                     <li><a href="<?php echo SITE_URL; ?>about.php">About Us</a></li>
                 </ul>
             </div>
@@ -59,7 +59,7 @@
                 <ul class="footer-links">
                     <li><a href="<?php echo SITE_URL; ?>orders.php">Track Order</a></li>
                     <li><a href="<?php echo SITE_URL; ?>wishlist.php">Wishlist</a></li>
-                    <li><a href="<?php echo SITE_URL; ?>cart.php">Shopping Cart</a></li>
+                    <!-- <li><a href="<?php echo SITE_URL; ?>cart.php">Shopping Cart</a></li> -->
                     <li><a href="<?php echo SITE_URL; ?>profile.php">My Account</a></li>
                 </ul>
             </div>

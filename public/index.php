@@ -144,7 +144,11 @@ $categories = get_categories();
             </div>
         </div>
         <div class="products-grid">
-            <?php foreach ($all_products as $index => $product): ?>
+            <?php
+            $limited_products = array_slice($all_products, 0, 9);
+
+            foreach ($limited_products as $index => $product):
+                ?>
                 <div class="product-card">
                     <a href="product.php?id=<?php echo $product['id']; ?>" class="product-image-link">
                         <div class="product-image">
@@ -884,7 +888,7 @@ require_once __DIR__ . '/../includes/footer.php';
 
     .products-grid .btn-buy-now {
         padding: 8px 16px;
-        background: #919dad;
+        background: #000;
         color: white;
         border: none;
         border-radius: 4px;

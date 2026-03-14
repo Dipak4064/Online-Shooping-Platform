@@ -57,23 +57,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-
-
 <div class="edit-page-container">
     <div class="edit-card shadow-sm">
         <a href="product_view.php?id=<?= $postId ?>" class="close-icon">&times;</a>
 
         <div class="edit-header">
-            <h1>Edit Listing</h1>
-            <p>Editing Item #<?= $postId ?></p>
+            <h1>Edit Product</h1>
         </div>
 
         <?php if ($error): ?>
-            <div class="alert alert-danger mx-5"><?= htmlspecialchars($error); ?></div>
+            <div class="alert alert-danger mx-5" style="font-size: 1.2rem;"><?= htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
         <form method="post" enctype="multipart/form-data" class="edit-form">
-
             <div class="input-group-section">
                 <label class="section-label">Product Image</label>
                 <div class="image-upload-flex">
@@ -138,148 +134,210 @@ require_once __DIR__ . '/../includes/header.php';
         padding: 60px 20px;
         display: flex;
         justify-content: center;
+        /* Base font size for the container */
+        font-size: 1.1rem;
     }
 
     .edit-card {
         background: #fff;
         width: 100%;
-        max-width: 850px;
-        border-radius: 12px;
+        max-width: 900px;
+        /* Slightly wider to accommodate larger text */
+        border-radius: 16px;
         position: relative;
-        padding-bottom: 30px;
+        padding-bottom: 40px;
         border: 1px solid #eee;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
 
     .close-icon {
         position: absolute;
         top: 25px;
-        left: 30px;
-        font-size: 28px;
+        right: 30px;
+        font-size: 2.5rem;
+        /* Larger close icon */
         color: #b0c4de;
         text-decoration: none;
+        line-height: 1;
     }
 
     .edit-header {
-        padding: 40px 50px 20px 50px;
+        padding: 50px 60px 30px 60px;
     }
 
     .edit-header h1 {
-        font-size: 24px;
-        font-weight: 700;
+        font-size: 2.2rem;
+        /* Big Header */
+        font-weight: 800;
         color: #1a1a1a;
+        margin-bottom: 10px;
     }
 
     .edit-header p {
-        color: #888;
-        font-size: 14px;
+        color: #666;
+        font-size: 1.2rem;
+        /* Sub-header larger */
     }
 
     .edit-form {
-        padding: 0 50px;
+        padding: 0 60px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 30px;
+        /* More spacing between groups */
     }
 
     .section-label {
         display: block;
-        font-size: 13px;
-        font-weight: 600;
-        color: #666;
-        margin-bottom: 8px;
+        font-size: 1.1rem;
+        /* Label size */
+        font-weight: 700;
+        color: #444;
+        margin-bottom: 12px;
     }
 
     .full-input {
         width: 100%;
-        padding: 12px 15px;
-        border: 1px solid #e1e8f0;
-        border-radius: 6px;
-        font-size: 15px;
+        padding: 16px 20px;
+        /* Thicker inputs */
+        border: 2px solid #e1e8f0;
+        /* Thicker border for better visibility */
+        border-radius: 10px;
+        font-size: 1.2rem;
+        /* Big readable input text */
+        color: #333;
+        transition: border-color 0.2s;
+    }
+
+    .full-input:focus {
+        border-color: #000;
+        outline: none;
+    }
+
+    textarea.full-input {
+        line-height: 1.6;
     }
 
     .image-upload-flex {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 30px;
     }
 
     .image-preview-box {
-        width: 100px;
-        height: 100px;
-        border: 1px dashed #cbd5e0;
-        border-radius: 8px;
+        width: 150px;
+        /* Larger preview */
+        height: 150px;
+        border: 2px dashed #cbd5e0;
+        border-radius: 12px;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
+        background-color: #fafafa;
     }
 
     .image-preview-box img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
     }
 
     .btn-outline {
-        border: 1px solid #cbd5e0;
-        padding: 8px 15px;
-        border-radius: 6px;
-        font-size: 13px;
-        font-weight: 600;
+        border: 2px solid #000;
+        /* High contrast border */
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 700;
         cursor: pointer;
+        display: inline-block;
+        transition: all 0.2s;
+    }
+
+    .btn-outline:hover {
+        background: #f0f0f0;
     }
 
     .file-info {
-        font-size: 12px;
-        color: #777;
-        margin-left: 10px;
+        display: block;
+        font-size: 1rem;
+        color: #666;
+        margin-top: 10px;
     }
 
     .form-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 20px;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
     }
 
     .main-actions {
         display: flex;
-        gap: 10px;
+        gap: 15px;
     }
 
     .btn-save {
         background: #000;
         color: #fff;
         border: none;
-        padding: 12px 25px;
-        border-radius: 6px;
-        font-weight: 600;
+        padding: 16px 35px;
+        /* Larger button */
+        border-radius: 10px;
+        font-size: 1.2rem;
+        font-weight: 700;
         cursor: pointer;
+        transition: transform 0.1s;
+    }
+
+    .btn-save:active {
+        transform: scale(0.98);
     }
 
     .btn-cancel {
         background: #f0f4f8;
-        color: #555;
+        color: #444;
         text-decoration: none;
-        padding: 12px 25px;
-        border-radius: 6px;
-        font-weight: 600;
+        padding: 16px 35px;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        display: inline-block;
     }
 
     .btn-delete {
         color: white;
-        font-size: 16px;
-        font-weight: 600;
+        font-size: 1.1rem;
+        font-weight: 700;
         text-decoration: none;
-        background-color: red;
-        padding: 12px 16px;
-        border-radius: 6px;
+        background-color: #ff3b30;
+        padding: 16px 25px;
+        border-radius: 10px;
+        transition: background-color 0.2s;
     }
 
     .btn-delete:hover {
-        text-decoration: none;
-        background-color: darkred;
+        background-color: #d32f2f;
         color: white;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+
+        .edit-header,
+        .edit-form {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .form-footer {
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-start;
+        }
     }
 </style>
 
@@ -287,7 +345,7 @@ require_once __DIR__ . '/../includes/header.php';
     document.getElementById('imageInput').addEventListener('change', function (e) {
         const file = e.target.files[0];
         if (file) {
-            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileName').textContent = "Selected: " + file.name;
             const reader = new FileReader();
             reader.onload = function (e) {
                 document.getElementById('imagePreview').innerHTML = `<img src="${e.target.result}">`;

@@ -81,6 +81,12 @@ require_once __DIR__ . '/../includes/header.php';
                         <span>Create Store</span>
                     </a>
                 <?php endif; ?>
+                <?php if ($user['role'] === 'admin'): ?>
+                    <a href="/admin/dashboard.php" class="admin-dashboard-btn">
+                        <span class="admin-icon">⚙️</span>
+                        <span>Admin Dashboard</span>
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
     </section>
