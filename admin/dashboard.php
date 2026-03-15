@@ -13,7 +13,7 @@ try {
     $website_revenue = $gross_revenue * 0.10;
 
     $totals = [
-        'products' => (int) $pdo->query('SELECT COUNT(*) FROM products')->fetchColumn(),
+        'products' => (int) $pdo->query('SELECT COUNT(*) FROM posts WHERE deleted_at IS NULL')->fetchColumn(),
         'orders' => (int) $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn(),
         'customers' => (int) $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'customer'")->fetchColumn(),
         'revenue' => $website_revenue,

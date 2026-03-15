@@ -63,7 +63,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $categories = $pdo->query("SELECT * FROM categories ORDER BY name ASC")->fetchAll(PDO::FETCH_ASSOC);
-$products = $pdo->query("SELECT * FROM posts WHERE deleted_at IS NULL ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+$products = $pdo->query("
+    SELECT posts.*, users.name 
+    FROM posts 
+    LEFT JOIN users ON posts.user_id = users.id 
+    WHERE posts.deleted_at IS NULL 
+    ORDER BY posts.created_at DESC
+")->fetchAll(PDO::FETCH_ASSOC);
 
 $editingId = isset($_GET['edit']) ? (int) $_GET['edit'] : 0;
 $editItem = null;
@@ -98,6 +104,7 @@ require_once __DIR__ . '/header.php';
         <thead>
             <tr>
                 <th>Image</th>
+                <th>Name</th>
                 <th>Title</th>
                 <th>Category</th>
                 <th>Price</th>
@@ -110,6 +117,9 @@ require_once __DIR__ . '/header.php';
                     <td>
                         <img src="../<?php echo htmlspecialchars($p['image_path'] ?: 'assets/no-image.png'); ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
                     </td>
+                    <td style="color: #64748b; font-size: 1.1rem;">
+                        <?php echo htmlspecialchars($p['name'] ?? 'Unknown User'); ?>
+                    </td>              
                     <td style="font-weight: 700;"><?php echo htmlspecialchars($p['title']); ?></td>
                     <td><span style="background: #f1f5f9; padding: 4px 10px; border-radius: 5px; font-size: 1.1rem;"><?php echo htmlspecialchars($p['product_type']); ?></span></td>
                     <td style="color: #27ae60; font-weight: 700;">Rs. <?php echo number_format($p['price'], 2); ?></td>
