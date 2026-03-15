@@ -26,7 +26,7 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="store-header">
                 <div class="store-logo">
                     <?php if ($store['logo']): ?>
-                        <img src="<?php echo ROOT_URL . 'public/' . htmlspecialchars($store['logo']); ?>"
+                        <img src="<?php echo ROOT_URL  . htmlspecialchars($store['logo']); ?>"
                             alt="<?php echo htmlspecialchars($store['name']); ?>">
                     <?php else: ?>
                         <span class="store-logo-placeholder">🏪</span>

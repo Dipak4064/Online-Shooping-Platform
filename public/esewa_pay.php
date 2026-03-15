@@ -36,8 +36,8 @@ $secret_key = "8gBm/:&EnhH.1/q";
 $signature_str = "total_amount=$total_amount,transaction_uuid=$transaction_uuid,product_code=$product_code";
 $signature = base64_encode(hash_hmac('sha256', $signature_str, $secret_key, true));
 
-$success_url = "http://localhost:8000/payment/success.php";
-$failure_url = "http://localhost:8000/payment/failure.php";
+$success_url = "http://localhost:3000/payment/success.php";
+$failure_url = "http://localhost:3000/payment/failure.php";
 ?>
 
 <!DOCTYPE html>
