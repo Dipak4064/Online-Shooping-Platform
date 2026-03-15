@@ -2214,7 +2214,7 @@ body.dark-mode .related-price .current {
 .dropdown-item:hover {
     background: linear-gradient(90deg, rgba(31, 41, 55, 0.08), transparent);
     color: #1f2937;
-    padding-left: 1.5rem;
+    padding-left: 1rem;
 }
 
 .dropdown-icon {
