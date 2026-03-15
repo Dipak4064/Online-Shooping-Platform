@@ -1885,7 +1885,6 @@ body.dark-mode .review-nav-btn {
     color: white;
 }
 
-/* Related Products Modern */
 .related-section-modern {
     padding: 4rem 5%;
     max-width: 1400px;
@@ -1969,7 +1968,6 @@ body.dark-mode .related-price .current {
     border-radius: 999px;
 }
 
-/* Responsive Product Detail */
 @media (max-width: 992px) {
     .product-detail-modern {
         grid-template-columns: 1fr;
@@ -2371,7 +2369,6 @@ body.dark-mode .related-price .current {
     opacity: 1;
 }
 
-/* Profile Page Styles */
 .profile-hero {
     background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
     border-radius: 2rem;
@@ -2690,7 +2687,6 @@ body.dark-mode .related-price .current {
    MOBILE RESPONSIVE NAVBAR
    ========================================== */
 
-/* Logo Enhancement */
 .logo {
     display: flex;
     align-items: center;
@@ -2713,7 +2709,6 @@ body.dark-mode .related-price .current {
     background-clip: text;
 }
 
-/* Cart Link Enhancement */
 .cart-link {
     display: flex;
     align-items: center;
@@ -2746,7 +2741,6 @@ body.dark-mode .related-price .current {
     text-align: center;
 }
 
-/* Header Login/Signup */
 .header-login {
     color: rgba(255, 255, 255, 0.9);
     padding: 0.5rem 1rem;
@@ -2763,7 +2757,6 @@ body.dark-mode .related-price .current {
     padding: 0.6rem 1.2rem;
 }
 
-/* Mobile-only elements (hidden on desktop) */
 .mobile-nav-header,
 .mobile-user-info,
 .mobile-nav-actions {
@@ -2923,7 +2916,6 @@ body.dark-mode .related-price .current {
         display: none;
     }
 
-    /* Nav Icons */
     .nav-icon {
         display: inline-block;
         width: 24px;
@@ -2932,7 +2924,6 @@ body.dark-mode .related-price .current {
         font-size: 1rem;
     }
 
-    /* Mobile Nav Actions (Profile, Orders, Logout) */
     .mobile-nav-actions {
         display: flex;
         flex-direction: column;
@@ -2971,7 +2962,6 @@ body.dark-mode .related-price .current {
         background: rgba(31, 41, 55, 0.1);
     }
 
-    /* Admin Link */
     .mobile-admin-link {
         background: rgba(31, 41, 55, 0.05);
         border-top: 1px solid #e9ecef;
@@ -2987,7 +2977,6 @@ body.dark-mode .related-price .current {
         background: rgba(31, 41, 55, 0.1);
     }
 
-    /* Logout Link */
     .mobile-logout-link {
         color: #dc2626;
         margin-top: 0.5rem;
@@ -3004,7 +2993,6 @@ body.dark-mode .related-price .current {
         background: rgba(220, 38, 38, 0.1);
     }
 
-    /* Sign Up Link */
     .mobile-signup-link {
         background: #1f2937;
         color: #ffffff !important;
@@ -3062,7 +3050,6 @@ body.dark-mode .related-price .current {
     }
 }
 
-/* Prevent body scroll when mobile menu is open */
 body.mobile-menu-open {
     overflow: hidden;
 }
@@ -3204,7 +3191,6 @@ body.dark-mode .about-feature {
     box-shadow: 0 8px 30px rgba(31, 41, 55, 0.4);
 }
 
-/* Why Choose Us Section */
 .why-choose-section {
     background: linear-gradient(135deg, #f8f9ff 0%, #eff6ff 100%);
     padding: 5rem 5%;
@@ -3310,7 +3296,6 @@ body.dark-mode .feature-card h3 {
     margin: 0;
 }
 
-/* Stats Section Light */
 .stats-section-light {
     background: #1f2937;
     padding: 4rem 5%;
@@ -3342,7 +3327,6 @@ body.dark-mode .feature-card h3 {
     color: rgba(255, 255, 255, 0.85);
 }
 
-/* Promise Section */
 .promise-section {
     background: var(--surface);
     padding: 5rem 5%;
@@ -3441,7 +3425,6 @@ body.dark-mode .promise-image img {
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
 }
 
-/* About CTA Light */
 .about-cta-light {
     background: linear-gradient(135deg, #f8f9ff 0%, #e0f2fe 100%);
     padding: 5rem 5%;
