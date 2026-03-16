@@ -69,7 +69,6 @@ if ($status === 'COMPLETE') {
             send_payment_receipt($u_email, $u_name, $amount, $transaction_id);
             create_order_record($u_id, $u_name, $p_id, "ktm", "Your Product is On The Way.", $amount, 'successful');
         }
-
     } else {
         header("Location: failure.php?msg=verification_failed");
         exit;
