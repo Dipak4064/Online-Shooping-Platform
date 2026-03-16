@@ -74,8 +74,10 @@ if ($status === 'COMPLETE') {
         exit;
     }
 } else {
+    
     header("Location: failure.php?msg=payment_not_complete");
     exit;
+
 }
 
 $current_date = date('F d, Y');
