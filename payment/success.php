@@ -40,7 +40,7 @@ if ($status === 'COMPLETE') {
         ));
 
         $response = curl_exec($curl);
-        curl_close($curl);
+        // curl_close($curl);
         $verification = json_decode($response, true);
 
         if (isset($verification['status']) && $verification['status'] === 'COMPLETE') {
